@@ -62,6 +62,8 @@ const Circle = styled.div`
   flex-shrink: 0;
   border-radius: 2rem;
   background: #98cdb3;
+
+  cursor: pointer;
 `;
 
 const DayText = styled.div<{ $isToday: boolean; $isNotvalid: boolean }>`
