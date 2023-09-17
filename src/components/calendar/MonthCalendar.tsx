@@ -1,6 +1,7 @@
 import { addMonths, subMonths } from "date-fns";
 import { useState } from "react";
 import useGetCalendarMonth from "../../hooks/useGetCalendarMonth";
+import DaysOfWeek from "./DaysOfWeek";
 import YearNMonth from "./YearNMonth";
 
 export default function MonthCalendar() {
@@ -23,6 +24,7 @@ export default function MonthCalendar() {
         handleToPrevMonth={handleToPrevMonth}
         handleToNextMonth={handleToNextMonth}
       />
+      <DaysOfWeek />
     </>
   );
 }
