@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { footerCategory } from "../../atom/footerCategory";
-import useFooterMove from "../../utils/useFooterMove";
+import useFooterMove from "../../hooks/useFooterMove";
 import FooterIcons from "./FooterIcons";
 
 export default function Footer() {

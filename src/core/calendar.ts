@@ -1,4 +1,4 @@
-const CALENDAR = [
+export const CALENDAR = [
   {
     calendar_date: "2023-09-01",
     is_true: false,

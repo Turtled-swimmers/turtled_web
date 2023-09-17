@@ -1,11 +1,5 @@
-import CalendarHeader from "../components/common/CalendarHeader";
-import Footer from "../components/common/Footer";
+import Calendar from "../components/calendar";
 
 export default function CalendarPage() {
-  return (
-    <>
-      <CalendarHeader />
-      <Footer />
-    </>
-  );
+  return <Calendar />;
 }

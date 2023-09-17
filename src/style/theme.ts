@@ -28,6 +28,7 @@ function FONT({ fontFamily, weight, size, lineHeight, letterSpacing }: Font): st
 
 const fonts = {
   title: FONT({ fontFamily: "SuitBold", weight: 700, size: 2.0, lineHeight: 2.6, letterSpacing: 0 }),
+  sub: FONT({ fontFamily: "SuitSemiBold", weight: 700, size: 1.5, lineHeight: 2.6, letterSpacing: 0 }),
 };
 
 export type FontsTypes = typeof fonts;
