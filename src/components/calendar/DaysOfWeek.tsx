@@ -16,7 +16,7 @@ export default function DaysOfWeek() {
 }
 
 const DayWrapper = styled.p<{ $isSunday: boolean }>`
-  color: ${({ $isSunday }) => $isSunday && "red"};
+  color: ${({ $isSunday }) => $isSunday && "#FCB3A6"};
 `;
 
 const DaysWrapper = styled.section`
