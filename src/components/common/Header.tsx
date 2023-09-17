@@ -18,4 +18,6 @@ const HeaderBox = styled.header`
 
   background: #fff;
   box-shadow: 0px 4px 3px 0px rgba(95, 88, 88, 0.1);
+
+  ${({ theme }) => theme.fonts.title}
 `;

@@ -8,21 +8,13 @@ export default function TurtledHeader() {
 
   return (
     <Header>
-      <Title>
-        <MainColor>T</MainColor>
-        <h1>urtled</h1>
-        {isExist && <Circle />}
-        <NotificationIcon />
-      </Title>
+      <MainColor>T</MainColor>
+      <h1>urtled</h1>
+      {isExist && <Circle />}
+      <NotificationIcon />
     </Header>
   );
 }
-
-const Title = styled.div`
-  display: flex;
-
-  ${({ theme }) => theme.fonts.title}
-`;
 
 const MainColor = styled.h1`
   color: ${({ theme }) => theme.colors.green};
@@ -50,4 +42,5 @@ const Circle = styled.div`
   position: absolute;
   z-index: 2;
   right: 3.5rem;
+  margin-top: -1.5rem;
 `;
