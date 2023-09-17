@@ -48,7 +48,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     /* width:39rem; */
     /* height: 56.8rem; */
-    height: 100vh;
+    height: 100%;
     border:1px solid black;
   }
   menu, ol, ul {

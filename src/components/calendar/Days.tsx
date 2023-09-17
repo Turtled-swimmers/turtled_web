@@ -53,6 +53,8 @@ const DaysWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 100%;
 `;
 
 const WeekWrapper = styled.article`
