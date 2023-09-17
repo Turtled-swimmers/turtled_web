@@ -5,6 +5,7 @@ import styled from "styled-components";
 interface DayItemProps {
   setSelectedDate: Dispatch<SetStateAction<Date>>;
   date: Date;
+  key: string;
   successedItem: { calendar_date: string; is_true: boolean } | undefined;
 }
 
@@ -23,25 +24,7 @@ export default function DayItem(props: DayItemProps) {
           <DayText $isToday={isTodayDate} $isNotvalid={getMonth(date) !== getMonth(currentDate)}>
             {formattedDate}
           </DayText>
-          {/* <>
-          {successedItem && (myChildLength as number) >= 4
-            ? successedItem?.dailyScheduleList?.slice(0, 2).map((lesson) => {
-                const { schedule, lessonIdx } = lesson;
-                const { startTime, studentName, idx } = schedule;
-
-                return (
-                  <ScheduleWrapper $backgroundcolor={STUDENT_COLOR[lessonIdx % 10]} key={idx}>
-                    {startTime} {studentName.slice(0, 2)}
-                  </ScheduleWrapper>
-                );
-              })
-            : successedItem?.dailyScheduleList.map((lesson) => {
-                const { schedule, lessonIdx } = lesson;
-                const { startTime, studentName, idx } = schedule;
-
-                return <Circle />;
-              })}
-        </> */}
+          {successedItem?.is_true && <Circle />}
         </DayBox>
       </DayItemWrapper>
     </DayItemContainer>
@@ -61,10 +44,12 @@ const DayItemWrapper = styled.div`
 
 const DayBox = styled.article<{ $isSunday: boolean }>`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 
   width: 4.1rem;
-  height: 5rem;
+  height: 6rem;
   color: ${({ $isSunday }) => $isSunday && "#FCB3A6"};
 `;
 
