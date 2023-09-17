@@ -74,7 +74,7 @@ const DayText = styled.div<{ $isToday: boolean; $isNotvalid: boolean }>`
   background-color: ${({ theme, $isToday }) => $isToday && theme.colors.green};
 
   border-radius: 50%;
-  width: 4.1rem;
+  width: ${({ $isToday }) => $isToday && 4.1}rem;
   height: 4rem;
   ${({ theme }) => theme.fonts.caption}
 `;
