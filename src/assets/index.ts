@@ -1,2 +1,10 @@
+export { ReactComponent as FooterCalendarActiveIc } from "./icon/footerCalendarActiveIc.svg";
+export { ReactComponent as FooterCalendarIc } from "./icon/footerCalendarIc.svg";
+export { ReactComponent as FooterMedalActiveIc } from "./icon/footerMedalActiveIc.svg";
+export { ReactComponent as FooterMedalIc } from "./icon/footerMedalIc.svg";
+export { ReactComponent as FooterProfileActiveIc } from "./icon/footerProfileActiveIc.svg";
+export { ReactComponent as FooterProfileIc } from "./icon/footerProfileIc.svg";
+export { ReactComponent as FooterStrechingActiveIc } from "./icon/footerStrechingActiveIc.svg";
+export { ReactComponent as FooterStrechingIc } from "./icon/footerStrechingIc.svg";
 export { ReactComponent as NotificationIc } from "./icon/notificationIc.svg";
 export { ReactComponent as TurtleIc } from "./icon/turtleIc.svg";
