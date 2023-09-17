@@ -1,6 +1,9 @@
+import TurtledHeader from "../components/common/TurtledHeader";
 
 export default function MainPage() {
   return (
-    <div>MainPage</div>
-  )
+    <>
+      <TurtledHeader />
+    </>
+  );
 }
