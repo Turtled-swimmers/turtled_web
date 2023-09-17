@@ -45,10 +45,11 @@ export const GlobalStyle = createGlobalStyle`
     touch-action: manipulation;
     line-height: 1;
 
-    width:39rem;
+    width: 100%;
+    /* width:39rem; */
     /* height: 56.8rem; */
-    /* height: 100vh; */
-    border:1px solid transparent;
+    height: 100vh;
+    border:1px solid black;
   }
   menu, ol, ul {
     list-style: none;
