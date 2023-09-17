@@ -1,7 +1,6 @@
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
 import Router from "./Router";
-import "./core/notification/settingFCM";
 import { GlobalStyle } from "./style/globalStyle";
 import { theme } from "./style/theme";
 
