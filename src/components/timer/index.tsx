@@ -1,9 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { ArrowLeftIc, ArrowRightIc } from "../../assets";
+import TurtleTimer from "./TurtleTimer";
 
 export default function Timer() {
   const [loopTime, setLoopTime] = useState("0:00");
+  const [loopCycle, setLoopCycle] = useState(0);
 
   function handleMinusTime() {
     if (Number(loopTime.split(":")[0]) === 0) {
@@ -21,6 +23,14 @@ export default function Timer() {
     }
   }
 
+  function handleSetTimes() {
+    setLoopCycle((il) => il + 1);
+  }
+
+  function handleStopStretching() {
+    window.location.reload();
+  }
+
   return (
     <TimerWrapper>
       <Title>몇 분 주기로 알림 받으실래요?</Title>
@@ -29,9 +39,58 @@ export default function Timer() {
         <LootTimeWrapper>{loopTime}</LootTimeWrapper>
         <ArrowRightIc onClick={handlePlusTime} />
       </TimeSetWrapper>
+      <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} />
+      <ButtonWrapper onClick={handleSetTimes}>
+        {loopCycle > 0 ? (
+          <StopButton onClick={handleStopStretching}>스트레칭 그만하기</StopButton>
+        ) : (
+          <StretchingButton>스트레칭 시작하기</StretchingButton>
+        )}
+      </ButtonWrapper>
     </TimerWrapper>
   );
 }
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StopButton = styled.button`
+  display: flex;
+  height: 4.8rem;
+  padding: 1.2rem 12rem;
+  margin: 5rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: stretch;
+  border-radius: 1rem;
+  border: 3px solid ${({ theme }) => theme.colors.green};
+  background: white;
+  box-shadow: 0px 3px 3px 0px rgba(95, 88, 88, 0.2);
+
+  color: ${({ theme }) => theme.colors.green};
+  ${({ theme }) => theme.fonts.sub};
+`;
+
+const StretchingButton = styled.button`
+  display: flex;
+  height: 4.8rem;
+  padding: 1.2rem 12rem;
+  margin: 5rem 0;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  align-self: stretch;
+  border-radius: 1rem;
+  border: 3px solid ${({ theme }) => theme.colors.green};
+  background: ${({ theme }) => theme.colors.green};
+  box-shadow: 0px 3px 3px 0px rgba(95, 88, 88, 0.2);
+
+  color: white;
+  ${({ theme }) => theme.fonts.sub};
+`;
 
 const Title = styled.h1`
   ${({ theme }) => theme.fonts.title};
