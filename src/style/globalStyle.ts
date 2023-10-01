@@ -49,7 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     /* width:39rem; */
     /* height: 56.8rem; */
     height: 100%;
-    border:1px solid black;
+    /* border:1px solid black; */
   }
   menu, ol, ul {
     list-style: none;

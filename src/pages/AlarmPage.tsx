@@ -1,11 +1,15 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import styled from "styled-components";
+import { alarm } from "../atom/common/alram";
 
 export default function AlarmPage() {
   // 임시
 
   const [deviceToken, setDeviceToken] = useState("");
+  const [isToggle, setIsToggle] = useRecoilState(alarm);
 
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_APP_API_KEY,
@@ -47,9 +51,12 @@ export default function AlarmPage() {
     getDeviceToken();
   }
 
-  // useEffect(() => {
-  //   mutate(deviceToken);
-  // }, [deviceToken]);
+  useEffect(() => {
+    // mutate(deviceToken);
+    if (deviceToken) {
+      setIsToggle(true);
+    }
+  }, [deviceToken]);
 
   function handleCopyClipBoard(token: string) {
     console.log(token);
@@ -63,9 +70,16 @@ export default function AlarmPage() {
   }
   return (
     <>
-      <button onClick={handleAllowAlarm}>알림 허용</button>
-      <button onClick={() => handleCopyClipBoard(deviceToken)}>토큰 복사하기</button>
+      <Button onClick={handleAllowAlarm}>알림 허용</Button>
+      <Button onClick={() => handleCopyClipBoard(deviceToken)}>토큰 복사하기</Button>
       {deviceToken}
     </>
   );
 }
+
+const Button = styled.button`
+  border: 1px solid black;
+
+  padding: 1rem;
+  margin: 1rem;
+`;
