@@ -1,21 +1,21 @@
 import { addDays, endOfMonth, endOfWeek, isSameDay, startOfMonth, startOfWeek } from "date-fns";
-import { useState } from "react";
 import styled from "styled-components";
 import useGetCalendarMonth from "../../hooks/useGetCalendarMonth";
 import DayItem from "./DayItem";
+import { SelectedDataType } from "./MonthCalendar";
 
-interface DaysProp {
+interface DaysProp extends SelectedDataType {
   currentDate: Date;
 }
 
 export default function Days(props: DaysProp) {
-  const { currentDate } = props;
+  const { currentDate, setSelectedDate } = props;
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate: Date = endOfWeek(monthEnd);
   const { monthData } = useGetCalendarMonth();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const rows: React.ReactNode[] = [];
   let days: React.ReactNode[] = [];

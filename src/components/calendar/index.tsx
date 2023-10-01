@@ -6,13 +6,13 @@ import DayCards from "./DayCards";
 import MonthCalendar from "./MonthCalendar";
 
 export default function Calendar() {
-  const [clickedDay, setClickedDay] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   return (
     <>
       <CalendarHeader />
-      <MonthCalendar />
-      <DayCards clickedDay={clickedDay} />
+      <MonthCalendar setSelectedDate={setSelectedDate} />
+      <DayCards selectedDate={`${selectedDate}`} />
       <Footer />
     </>
   );

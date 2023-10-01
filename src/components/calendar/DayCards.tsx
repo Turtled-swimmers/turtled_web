@@ -3,16 +3,16 @@ import useGetCalendarDay from "../../hooks/useGetCalendarDay";
 import DayCard from "./DayCard";
 
 interface DayCarsProps {
-  clickedDay: string;
+  selectedDate: string;
 }
 
 export default function DayCards(props: DayCarsProps) {
-  const { clickedDay } = props;
-  const { dayData } = useGetCalendarDay(clickedDay);
+  const { selectedDate } = props;
+  const { dayData } = useGetCalendarDay(selectedDate);
 
   return (
     <>
-      {clickedDay.length > 0 && (
+      {selectedDate.length > 0 && (
         <DayCardsContainer>
           {dayData?.map(({ start_time, end_time, repeat_time, count }, idx) => (
             <DayCard
