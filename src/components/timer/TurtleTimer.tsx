@@ -26,7 +26,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     if (time > timeToStrech) {
       handleSetTimes();
       setTime(0);
-      alert("Time OVER!");
+      //   alert("Time OVER!");
     }
   }, [time]);
 
