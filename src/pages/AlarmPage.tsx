@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
+
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
@@ -24,8 +25,28 @@ export default function AlarmPage() {
   const app = initializeApp(firebaseConfig);
   const messaging = getMessaging(app);
 
+  function registerServiceWorker() {
+    navigator.serviceWorker
+      .register("firebase-messaging-sw.js")
+      .then(function (registration) {
+        console.log("Service Worker 등록 성공:", registration);
+      })
+      .catch(function (error) {
+        console.log("Service Worker 등록 실패:", error);
+      });
+  }
+
   async function handleAllowAlarm() {
     const permission = await Notification.requestPermission();
+
+    registerServiceWorker();
+
+    const token = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
+    });
+
+    setDeviceToken(token);
+
     if (permission === "denied") {
       console.log("알림 권한 허용 안됨");
     }
@@ -40,16 +61,16 @@ export default function AlarmPage() {
   //   },
   // });
 
-  async function getDeviceToken() {
-    const token = await getToken(messaging, {
-      vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
-    });
-    setDeviceToken(token);
-  }
+  //   async function getDeviceToken() {
+  //     const token = await getToken(messaging, {
+  //       vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
+  //     });
+  //     setDeviceToken(token);
+  //   }
 
-  function handleAttend() {
-    getDeviceToken();
-  }
+  //   function handleAttend() {
+  //     getDeviceToken();
+  //   }
 
   useEffect(() => {
     // mutate(deviceToken);
