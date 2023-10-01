@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { ArrowLeftIc, ArrowRightIc, ShowStrechIc } from "../../assets";
+import { ArrowLeftIc, ArrowRightIc, ShowStrechIc, TurtleIc } from "../../assets";
 import stretch from "../../assets/image/stretch.png";
 import Modal from "../common/Modal";
 import TurtledHeader from "../common/TurtledHeader";
@@ -10,6 +10,7 @@ export default function Timer() {
   const [loopTime, setLoopTime] = useState("0:00");
   const [loopCycle, setLoopCycle] = useState(0);
   const [isShow, setIsShow] = useState(false);
+  const [isShowEndModal, setIsShowEndModal] = useState(false);
 
   function handleMinusTime() {
     if (Number(loopTime.split(":")[0]) === 0) {
@@ -32,7 +33,7 @@ export default function Timer() {
   }
 
   function handleStopStretching() {
-    window.location.reload();
+    setIsShowEndModal(true);
   }
 
   function handleShowStrech() {
@@ -51,6 +52,16 @@ export default function Timer() {
             <ModalTitle>스트레칭 방법</ModalTitle>
             <ModalSub>스트레칭이 어렵다면 그림을 따라해봐요!</ModalSub>
             <img src={stretch} alt="스트레칭 그림" />
+          </ModalWrapper>
+        </Modal>
+      )}
+      {isShowEndModal && (
+        <Modal handleClickSingleButton={() => window.location.reload()}>
+          <ModalWrapper>
+            <ModalTitle>스트레칭 끝 !</ModalTitle>
+            <ModalSub>총 {loopCycle - 2}번을 하셨습니다!</ModalSub>
+            <ModalContent>타이머 주기 : {loopTime.split(":")[0]}분</ModalContent>
+            <TurtleIcon />
           </ModalWrapper>
         </Modal>
       )}
@@ -76,6 +87,15 @@ export default function Timer() {
     </>
   );
 }
+
+const TurtleIcon = styled(TurtleIc)`
+  width: 25rem;
+  height: 25rem;
+`;
+
+const ModalContent = styled.p`
+  ${({ theme }) => theme.fonts.content};
+`;
 
 const ModalWrapper = styled.aside`
   display: flex;
