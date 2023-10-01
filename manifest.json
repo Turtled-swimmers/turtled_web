@@ -11,18 +11,18 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/turtleLogo.png",
+      "src": "/mainLogo.png",
       "type": "image/x-icon",
       "sizes": "512x512",
       "purpose": "any maskable"
     },
     {
-      "src": "/turtleLogo.png",
+      "src": "/mainLogo.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "/turtleLogo.png",
+      "src": "/mainLogo.png",
       "type": "image/png",
       "sizes": "480x288",
       "purpose": "any maskable"
