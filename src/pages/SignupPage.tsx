@@ -1,11 +1,11 @@
 import TurtledHeader from "../components/common/TurtledHeader";
-import Login from "../components/join/Login";
+import Signup from "../components/join/Signup";
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <>
       <TurtledHeader />
-      <Login />
+      <Signup />
     </>
   );
 }
