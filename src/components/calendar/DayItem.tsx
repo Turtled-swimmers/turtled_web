@@ -17,6 +17,10 @@ export default function DayItem(props: DayItemProps) {
   const isTodayDate: boolean = isToday(date);
   const currentDate: Date = new Date();
 
+  function handleShowRecord() {
+    setSelectedDate(date);
+  }
+
   return (
     <DayItemContainer>
       <DayItemWrapper>
@@ -24,7 +28,7 @@ export default function DayItem(props: DayItemProps) {
           <DayText $isToday={isTodayDate} $isNotvalid={getMonth(date) !== getMonth(currentDate)}>
             {formattedDate}
           </DayText>
-          {successedItem?.is_true && <Circle />}
+          {successedItem?.is_true && <Circle onClick={handleShowRecord} />}
         </DayBox>
       </DayItemWrapper>
     </DayItemContainer>

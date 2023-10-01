@@ -1,10 +1,14 @@
 import { addMonths, subMonths } from "date-fns";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Days from "./Days";
 import DaysOfWeek from "./DaysOfWeek";
 import YearNMonth from "./YearNMonth";
 
-export default function MonthCalendar() {
+export interface SelectedDataType {
+  setSelectedDate: Dispatch<SetStateAction<Date>>;
+}
+
+export default function MonthCalendar({ setSelectedDate }: SelectedDataType) {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
 
   function handleToPrevMonth() {
@@ -23,7 +27,7 @@ export default function MonthCalendar() {
         handleToNextMonth={handleToNextMonth}
       />
       <DaysOfWeek />
-      <Days currentDate={currentDate} />
+      <Days currentDate={currentDate} setSelectedDate={setSelectedDate} />
     </>
   );
 }
