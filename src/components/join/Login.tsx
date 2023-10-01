@@ -1,71 +1,57 @@
-import { useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { EMAIL_FORM, NICKNAME_FORM } from "../../utils/join/join";
 
-interface SignupFormValue {
+interface LoginFormValue {
   email: string;
-  nickname: string;
   password: string;
-  passwordConfirm: string;
 }
 
-export default function Signup() {
+export default function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<SignupFormValue>();
+  } = useForm<LoginFormValue>();
 
-  const onSubmitHandler: SubmitHandler<SignupFormValue> = (data) => {
+  const onSubmitHandler: SubmitHandler<LoginFormValue> = (data) => {
     console.log(data);
   };
 
-  const passwordRef = useRef<string | null>(null);
-  passwordRef.current = watch("password");
+  function handleMoveToSignup() {
+    navigate("/signup");
+  }
 
   return (
     <SignupContainer>
       <SigninWrapper onSubmit={handleSubmit(onSubmitHandler)}>
         <Title>이메일</Title>
-        <Input {...register("email", { required: true, pattern: EMAIL_FORM })} type="email" />
+        <Input {...register("email", { required: true })} type="email" />
         {errors.email && errors.email.type === "required" && <Error>이메일을 입력해 주세요!</Error>}
-        {errors.email && errors.email.type === "pattern" && <Error>이메일 형식을 확인해주세요!</Error>}
-        <Title>닉네임</Title>
-        <Input
-          {...register("nickname", {
-            required: true,
-            pattern: NICKNAME_FORM,
-            maxLength: 8,
-          })}
-        />
-        {errors.nickname && errors.nickname.type === "required" && <Error>닉네임을 입력해 주세요!</Error>}
-        {errors.nickname && errors.nickname.type === "pattern" && (
-          <Error>한글, 영어, 숫자 8자 이내로 입력해주세요!</Error>
-        )}
-        {errors.nickname && errors.nickname.type === "maxLength" && <Error>최대 8자 이내로 입력해주세요!</Error>}
-
         <Title>비밀번호</Title>
         <Input {...register("password", { required: true })} type="password" />
         {errors.password && errors.password.type === "required" && <Error>비밀번호를 입력해 주세요!</Error>}
 
-        <Title>비밀번호 확인</Title>
-        <Input
-          {...register("passwordConfirm", {
-            required: true,
-            validate: (value) => value === passwordRef.current,
-          })}
-          type="password"
-        />
-        {errors.passwordConfirm && errors.passwordConfirm.type === "validate" && (
-          <Error>비밀번호와 일치하지 않습니다!</Error>
-        )}
-        <Button>회원가입</Button>
+        <BottomSection>
+          <>비밀번호 찾기 </>
+          <> | </>
+          <div onClick={handleMoveToSignup}>회원가입</div>
+        </BottomSection>
+
+        <Button>로그인</Button>
       </SigninWrapper>
     </SignupContainer>
   );
 }
+const BottomSection = styled.section`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  ${({ theme }) => theme.fonts.sub};
+  color: ${({ theme }) => theme.colors.gray1};
+`;
 
 const Button = styled.button`
   display: flex;
