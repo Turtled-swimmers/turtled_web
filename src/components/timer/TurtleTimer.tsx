@@ -10,6 +10,7 @@ interface TurtleTimerProp {
 
 export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: TurtleTimerProp) {
   const [time, setTime] = useState(0); // 남은 시간 (단위: 초)
+  const [isShow, setIsShow] = useState(false);
   const timeToStrech = Number(loopTime.split(":")[0]) * 60;
 
   useEffect(() => {
@@ -38,6 +39,14 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     }
   }
 
+  function handleShowStrech() {
+    setIsShow(true);
+  }
+
+  function handleCloseStrech() {
+    setIsShow(false);
+  }
+
   return (
     <>
       <TurtleTimerContainer>
@@ -47,34 +56,17 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
           <span>{getSeconds(time)}</span>
         </TurtleTimerWrapper>
         <TimerUIWrapper>
+          {/* <Circle percent={Math.floor((time / timeToStrech) * 100)} /> */}
           <TurtleIcon />
           <TimerFrontIcon />
           <TimerBackIcon />
-          <TimerPercent percent={(time / timeToStrech) * 100} />
-        </TimerUIWrapper>
 
-        {/* <Donut percent={(time / timeToStrech) * 100} /> */}
+          <TimerPercent percent={Math.ceil((time / timeToStrech) * 100)} />
+        </TimerUIWrapper>
       </TurtleTimerContainer>
     </>
   );
 }
-
-const Donut = styled.div<{ percent: number }>`
-  width: 29.7rem;
-  height: 29.7rem;
-
-  /* width: calc(100% - 16px);
-  padding-bottom: calc(100% - 16px); */
-  /* margin: 0 auto; */
-  border-radius: 50%;
-  position: relative;
-  text-align: center;
-  /* transition: background 0.3s ease-in-out; */
-  background: conic-gradient(
-    ${({ theme }) => theme.colors.green} 0% ${({ percent }) => percent}%,
-    ${({ theme }) => theme.colors.gray1} ${({ percent }) => percent}% 100%
-  );
-`;
 
 const TurtleIcon = styled(TurtleIc)`
   position: absolute;
@@ -98,6 +90,44 @@ const TimerUIWrapper = styled.section`
   align-items: center;
 
   margin-top: 1rem;
+`;
+
+const Circle = styled.div<{ percent: number }>`
+  position: absolute;
+  z-index: 15;
+
+  /* top: ${({ percent }) =>
+    0 <= percent && percent < 5
+      ? 24.5
+      : 5 <= percent && percent < 12.5
+      ? 25 + percent * 0.58
+      : 12.5 <= percent && percent < 25
+      ? 24.5 + percent * 0.58
+      : 25 <= percent && percent < 50
+      ? 39 + (percent - 25) * 0.58
+      : 50 <= percent && percent < 75
+      ? 53.5 - (percent - 50) * 0.58
+      : 39 - (percent - 75) * 0.58}rem;
+  left: ${({ percent }) =>
+    0 <= percent && percent < 5
+      ? 18.5
+      : 5 <= percent && percent < 12.5
+      ? 20 + (percent + 5) * 0.58
+      : 12.5 <= percent && percent < 25
+      ? 18.5 + percent * 0.58 + (5 - 0.4 * (percent - 12.5))
+      : 25 <= percent && percent < 50
+      ? 33 - (percent - 25) * 0.58
+      : 50 <= percent && percent < 75
+      ? 18.5 - (percent - 50) * 0.58
+      : 4 + (percent - 75) * 0.58}rem; */
+  width: 2.5495rem;
+  height: 2.5495rem;
+
+  background: ${({ theme }) => theme.colors.green};
+
+  border: 3px solid white;
+  border-radius: 50%;
+  filter: drop-shadow(0px 3px 5px rgba(95, 88, 88, 0.15));
 `;
 
 const TimerPercent = styled.div<{ percent: number }>`

@@ -1,4 +1,5 @@
 export { ReactComponent as ArrowRightIc } from "./icon/ArrowRightIc.svg";
+export { ReactComponent as Close } from "./icon/Close.svg";
 export { ReactComponent as ArrowLeftIc } from "./icon/arrowLeftIc.svg";
 export { ReactComponent as FooterCalendarActiveIc } from "./icon/footerCalendarActiveIc.svg";
 export { ReactComponent as FooterCalendarIc } from "./icon/footerCalendarIc.svg";
@@ -9,6 +10,7 @@ export { ReactComponent as FooterProfileIc } from "./icon/footerProfileIc.svg";
 export { ReactComponent as FooterStrechingActiveIc } from "./icon/footerStrechingActiveIc.svg";
 export { ReactComponent as FooterStrechingIc } from "./icon/footerStrechingIc.svg";
 export { ReactComponent as NotificationIc } from "./icon/notificationIc.svg";
+export { ReactComponent as ShowStrechIc } from "./icon/showStrechIc.svg";
 export { ReactComponent as TimerBackIc } from "./icon/timerBackIc.svg";
 export { ReactComponent as TimerFrontIc } from "./icon/timerFrontIc.svg";
 export { ReactComponent as TurtleIc } from "./icon/turtleIc.svg";

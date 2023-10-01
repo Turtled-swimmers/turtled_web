@@ -1,11 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { ArrowLeftIc, ArrowRightIc } from "../../assets";
+import { ArrowLeftIc, ArrowRightIc, ShowStrechIc } from "../../assets";
+import stretch from "../../assets/image/stretch.png";
+import Modal from "../common/Modal";
+import TurtledHeader from "../common/TurtledHeader";
 import TurtleTimer from "./TurtleTimer";
 
 export default function Timer() {
   const [loopTime, setLoopTime] = useState("0:00");
   const [loopCycle, setLoopCycle] = useState(0);
+  const [isShow, setIsShow] = useState(false);
 
   function handleMinusTime() {
     if (Number(loopTime.split(":")[0]) === 0) {
@@ -31,26 +35,68 @@ export default function Timer() {
     window.location.reload();
   }
 
-  return (
-    <TimerWrapper>
-      <Title>몇 분 주기로 알림 받으실래요?</Title>
-      <TimeSetWrapper>
-        <ArrowLeftIc onClick={handleMinusTime} />
-        <LootTimeWrapper>{loopTime}</LootTimeWrapper>
-        <ArrowRightIc onClick={handlePlusTime} />
-      </TimeSetWrapper>
+  function handleShowStrech() {
+    setIsShow(true);
+  }
 
-      <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} handleSetTimes={handleSetTimes} />
-      <ButtonWrapper onClick={handleSetTimes}>
-        {loopCycle > 0 ? (
-          <StopButton onClick={handleStopStretching}>스트레칭 그만하기</StopButton>
-        ) : (
-          <StretchingButton>스트레칭 시작하기</StretchingButton>
-        )}
-      </ButtonWrapper>
-    </TimerWrapper>
+  function handleCloseStrech() {
+    setIsShow(false);
+  }
+
+  return (
+    <>
+      {isShow && (
+        <Modal handleClickSingleButton={handleCloseStrech}>
+          <ModalWrapper>
+            <ModalTitle>스트레칭 방법</ModalTitle>
+            <ModalSub>스트레칭이 어렵다면 그림을 따라해봐요!</ModalSub>
+            <img src={stretch} alt="스트레칭 그림" />
+          </ModalWrapper>
+        </Modal>
+      )}
+      <TurtledHeader />
+      <ShowStrechIcon onClick={handleShowStrech} />
+      <TimerWrapper>
+        <Title>{loopCycle === 0 ? <>몇 분 주기로 알림 받으실래요?</> : <>부지런히..하다보면 언젠가는..!</>}</Title>
+        <TimeSetWrapper>
+          <ArrowLeftIc onClick={handleMinusTime} />
+          <LootTimeWrapper>{loopTime}</LootTimeWrapper>
+          <ArrowRightIc onClick={handlePlusTime} />
+        </TimeSetWrapper>
+
+        <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} handleSetTimes={handleSetTimes} />
+        <ButtonWrapper onClick={handleSetTimes}>
+          {loopCycle > 0 ? (
+            <StopButton onClick={handleStopStretching}>스트레칭 그만하기</StopButton>
+          ) : (
+            <StretchingButton>스트레칭 시작하기</StretchingButton>
+          )}
+        </ButtonWrapper>
+      </TimerWrapper>
+    </>
   );
 }
+
+const ModalWrapper = styled.aside`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ModalTitle = styled.h1`
+  ${({ theme }) => theme.fonts.title};
+`;
+
+const ModalSub = styled.p`
+  ${({ theme }) => theme.fonts.sub};
+`;
+
+const ShowStrechIcon = styled(ShowStrechIc)`
+  position: absolute;
+  z-index: 5;
+  top: 22rem;
+  right: 5rem;
+`;
 
 const ButtonWrapper = styled.div`
   display: flex;
