@@ -10,6 +10,8 @@ export { ReactComponent as FooterProfileIc } from "./icon/footerProfileIc.svg";
 export { ReactComponent as FooterStrechingActiveIc } from "./icon/footerStrechingActiveIc.svg";
 export { ReactComponent as FooterStrechingIc } from "./icon/footerStrechingIc.svg";
 export { ReactComponent as NotificationIc } from "./icon/notificationIc.svg";
+export { ReactComponent as OffAlarmIc } from "./icon/offAlarmIc.svg";
+export { ReactComponent as OnAlarmIc } from "./icon/onAlarmIc.svg";
 export { ReactComponent as ShowStrechIc } from "./icon/showStrechIc.svg";
 export { ReactComponent as TimerBackIc } from "./icon/timerBackIc.svg";
 export { ReactComponent as TimerFrontIc } from "./icon/timerFrontIc.svg";
