@@ -1,6 +1,6 @@
-export { ReactComponent as ArrowRightIc } from "./icon/ArrowRightIc.svg";
 export { ReactComponent as Close } from "./icon/Close.svg";
 export { ReactComponent as ArrowLeftIc } from "./icon/arrowLeftIc.svg";
+export { ReactComponent as ArrowRightIc } from "./icon/arrowRightIc.svg";
 export { ReactComponent as FooterCalendarActiveIc } from "./icon/footerCalendarActiveIc.svg";
 export { ReactComponent as FooterCalendarIc } from "./icon/footerCalendarIc.svg";
 export { ReactComponent as FooterMedalActiveIc } from "./icon/footerMedalActiveIc.svg";
