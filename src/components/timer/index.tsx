@@ -39,7 +39,8 @@ export default function Timer() {
         <LootTimeWrapper>{loopTime}</LootTimeWrapper>
         <ArrowRightIc onClick={handlePlusTime} />
       </TimeSetWrapper>
-      <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} />
+
+      <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} handleSetTimes={handleSetTimes} />
       <ButtonWrapper onClick={handleSetTimes}>
         {loopCycle > 0 ? (
           <StopButton onClick={handleStopStretching}>스트레칭 그만하기</StopButton>
