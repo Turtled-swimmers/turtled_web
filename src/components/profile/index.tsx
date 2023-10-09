@@ -1,5 +1,7 @@
+import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { getMypage } from "../../api/auth";
 import { OffAlarmIc, OnAlarmIc } from "../../assets";
 import { alarm } from "../../atom/common/alram";
 
@@ -10,11 +12,18 @@ export default function Profile() {
     setIsToggle((it) => !it);
   }
 
+  const { data: profile } = useQuery(["profile"], getMypage, {
+    onSuccess: () => {},
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   return (
     <ProfileWrapper>
       <Box isAlarm={true}>
-        <NickName>Swimmers</NickName>
-        <Email>email@naver.com</Email>
+        <NickName>{profile.nickName}</NickName>
+        <Email>{profile.email}</Email>
       </Box>
       <Box isAlarm={true}>
         <Content>알림 허용</Content>

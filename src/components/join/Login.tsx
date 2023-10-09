@@ -1,6 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { login } from "../../api/auth";
+import { setCookie } from "../../api/cookie";
 
 interface LoginFormValue {
   email: string;
@@ -16,8 +19,20 @@ export default function Login() {
     formState: { errors },
   } = useForm<LoginFormValue>();
 
+  const { mutate: loginData } = useMutation(["login"], login, {
+    onSuccess: (accessToken) => {
+      setCookie("accessToken", accessToken, {
+        secure: true,
+      });
+      navigate("/");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   const onSubmitHandler: SubmitHandler<LoginFormValue> = (data) => {
-    console.log(data);
+    loginData(data);
   };
 
   function handleMoveToSignup() {

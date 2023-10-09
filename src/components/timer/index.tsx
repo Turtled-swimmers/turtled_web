@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useMutation } from "react-query";
 import styled from "styled-components";
+import { doneAlarm } from "../../api/timer";
 import { ArrowLeftIc, ArrowRightIc, ShowStrechIc, TurtleIc } from "../../assets";
 import stretch from "../../assets/image/stretch.png";
 import Modal from "../common/Modal";
@@ -32,8 +34,18 @@ export default function Timer() {
     setLoopCycle((il) => il + 1);
   }
 
+  const { mutate: stopStretching } = useMutation(["stopStretching"], doneAlarm, {
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   function handleStopStretching() {
     setIsShowEndModal(true);
+    stopStretching(loopCycle);
   }
 
   function handleShowStrech() {

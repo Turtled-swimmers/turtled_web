@@ -1,7 +1,14 @@
-import { CALENDAR } from "../core/calendar";
+import { useQuery } from "react-query";
+import { getMonthData } from "../api/chanllenge";
 
-export default function useGetCalendarMonth() {
-  const monthData = CALENDAR;
-
+export default function useGetCalendarMonth(date: string) {
+  const { data: monthData } = useQuery(["monthData"], () => getMonthData(date), {
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
   return { monthData };
 }

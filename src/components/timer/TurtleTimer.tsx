@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import styled from "styled-components";
+import { postAlarm } from "../../api/timer";
 import { TimerBackIc, TimerFrontIc, TurtleIc } from "../../assets";
 
 interface TurtleTimerProp {
@@ -13,6 +15,15 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
   const [isShow, setIsShow] = useState(false);
   const timeToStrech = Number(loopTime.split(":")[0]) * 60;
 
+  const { mutate: sendAlarm } = useMutation(["sendAlarm"], postAlarm, {
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   useEffect(() => {
     if (loopCycle === 0) return;
     const timer = setInterval(() => {
@@ -25,6 +36,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     if (loopCycle === 0) return;
     if (time > timeToStrech) {
       handleSetTimes();
+      sendAlarm();
       setTime(0);
       //   alert("Time OVER!");
     }

@@ -1,6 +1,11 @@
-import { useRef } from "react";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken } from "firebase/messaging";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { signup } from "../../api/auth";
 import { EMAIL_FORM, NICKNAME_FORM } from "../../utils/join/join";
 
 interface SignupFormValue {
@@ -17,9 +22,65 @@ export default function Signup() {
     watch,
     formState: { errors },
   } = useForm<SignupFormValue>();
+  const navigate = useNavigate();
+
+  const [deviceToken, setDeviceToken] = useState("");
+
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_APP_API_KEY,
+    authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_APP_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_APP_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_APP_ID,
+    measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  function registerServiceWorker() {
+    navigator.serviceWorker
+      .register("firebase-messaging-sw.js")
+      .then(function (registration) {
+        console.log("Service Worker 등록 성공:", registration);
+      })
+      .catch(function (error) {
+        console.log("Service Worker 등록 실패:", error);
+      });
+  }
+
+  async function handleAllowAlarm() {
+    const permission = await Notification.requestPermission();
+
+    registerServiceWorker();
+
+    const token = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
+    });
+
+    setDeviceToken(token);
+
+    if (permission === "denied") {
+      console.log("알림 권한 허용 안됨");
+    }
+  }
+
+  useEffect(() => {
+    handleAllowAlarm();
+  }, []);
+
+  const { mutate: signupData } = useMutation(["signup"], signup, {
+    onSuccess: (res) => {
+      navigate("/login");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   const onSubmitHandler: SubmitHandler<SignupFormValue> = (data) => {
-    console.log(data);
+    signupData({ ...data, deviceToken: deviceToken });
   };
 
   const passwordRef = useRef<string | null>(null);
