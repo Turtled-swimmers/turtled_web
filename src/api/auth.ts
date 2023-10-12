@@ -7,11 +7,18 @@ interface LoginType {
 }
 
 export async function login(formData: LoginType) {
-  const data = await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/login/local`, formData, {
-    headers: {
-      "Content-Type": "application/json",
+  console.log("asdf");
+  const data = await axios.post(
+    `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/login/local`,
+    { userName: formData.email, password: formData.password },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
+
+  console.log(data);
 
   return data.data.jwt.access_token;
 }
@@ -19,8 +26,8 @@ export async function login(formData: LoginType) {
 interface SignupType {
   email: string;
   password: string;
-  nickname: string;
-  deviceToken: string; // fcm deviceToken
+  username: string;
+  checked_password: string;
 }
 
 export async function signup(formData: SignupType) {
@@ -29,6 +36,20 @@ export async function signup(formData: SignupType) {
       "Content-Type": "application/json",
     },
   });
+
+  return data;
+}
+
+export async function registerToken(token: string) {
+  const data = await axios.post(
+    `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/register`,
+    { token: token },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
 
   return data;
 }

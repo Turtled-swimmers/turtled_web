@@ -32,6 +32,7 @@ export default function Login() {
   });
 
   const onSubmitHandler: SubmitHandler<LoginFormValue> = (data) => {
+    console.log(data);
     loginData(data);
   };
 

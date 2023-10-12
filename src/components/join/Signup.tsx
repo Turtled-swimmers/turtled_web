@@ -5,12 +5,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { signup } from "../../api/auth";
-import { EMAIL_FORM, NICKNAME_FORM } from "../../utils/join/join";
+import { registerToken, signup } from "../../api/auth";
+import { EMAIL_FORM } from "../../utils/join/join";
 
 interface SignupFormValue {
   email: string;
-  nickname: string;
+  username: string;
   password: string;
   passwordConfirm: string;
 }
@@ -20,6 +20,7 @@ export default function Signup() {
     register,
     handleSubmit,
     watch,
+    getValues,
     formState: { errors },
   } = useForm<SignupFormValue>();
   const navigate = useNavigate();
@@ -67,11 +68,11 @@ export default function Signup() {
   }
 
   useEffect(() => {
-    handleAllowAlarm();
-  }, []);
+    deviceToken !== "" && deviceToken !== undefined && postToken(deviceToken);
+  }, [deviceToken]);
 
-  const { mutate: signupData } = useMutation(["signup"], signup, {
-    onSuccess: (res) => {
+  const { mutate: postToken } = useMutation(["registerToken"], registerToken, {
+    onSuccess: () => {
       navigate("/login");
     },
     onError: (err) => {
@@ -79,8 +80,21 @@ export default function Signup() {
     },
   });
 
+  const { mutate: signupData } = useMutation(["signup"], signup, {
+    onSuccess: (res) => {
+      handleAllowAlarm();
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
   const onSubmitHandler: SubmitHandler<SignupFormValue> = (data) => {
-    signupData({ ...data, deviceToken: deviceToken });
+    signupData({
+      username: getValues("username"),
+      email: getValues("email"),
+      password: getValues("password"),
+      checked_password: getValues("passwordConfirm"),
+    });
   };
 
   const passwordRef = useRef<string | null>(null);
@@ -95,17 +109,17 @@ export default function Signup() {
         {errors.email && errors.email.type === "pattern" && <Error>이메일 형식을 확인해주세요!</Error>}
         <Title>닉네임</Title>
         <Input
-          {...register("nickname", {
+          {...register("username", {
             required: true,
-            pattern: NICKNAME_FORM,
+            pattern: username_FORM,
             maxLength: 8,
           })}
         />
-        {errors.nickname && errors.nickname.type === "required" && <Error>닉네임을 입력해 주세요!</Error>}
-        {errors.nickname && errors.nickname.type === "pattern" && (
+        {errors.username && errors.username.type === "required" && <Error>닉네임을 입력해 주세요!</Error>}
+        {errors.username && errors.username.type === "pattern" && (
           <Error>한글, 영어, 숫자 8자 이내로 입력해주세요!</Error>
         )}
-        {errors.nickname && errors.nickname.type === "maxLength" && <Error>최대 8자 이내로 입력해주세요!</Error>}
+        {errors.username && errors.username.type === "maxLength" && <Error>최대 8자 이내로 입력해주세요!</Error>}
 
         <Title>비밀번호</Title>
         <Input {...register("password", { required: true })} type="password" />
