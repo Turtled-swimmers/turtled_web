@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { postAlarm } from "../../api/timer";
 import { TimerBackIc, TimerFrontIc, TurtleIc } from "../../assets";
+import { token } from "../../atom/common/token";
 
 interface TurtleTimerProp {
   loopTime: string;
@@ -14,8 +16,10 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
   const [time, setTime] = useState(0); // 남은 시간 (단위: 초)
   const [isShow, setIsShow] = useState(false);
   const timeToStrech = Number(loopTime.split(":")[0]) * 60;
+  const deviceToken = useRecoilValue(token);
+  const [startTime, setStartTime] = useState("");
 
-  const { mutate: sendAlarm } = useMutation(["sendAlarm"], postAlarm, {
+  const { mutate: sendAlarm } = useMutation(["sendAlarm"], () => postAlarm(deviceToken, loopCycle, startTime), {
     onSuccess: (res) => {
       console.log(res);
     },
@@ -23,6 +27,23 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
       console.log(err);
     },
   });
+
+  useEffect(() => {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
+    let day = ("0" + today.getDate()).slice(-2);
+
+    let dateString = year + "-" + month + "-" + day;
+
+    let hours = ("0" + today.getHours()).slice(-2);
+    let minutes = ("0" + today.getMinutes()).slice(-2);
+    let seconds = ("0" + today.getSeconds()).slice(-2);
+
+    let timeString = hours + ":" + minutes + ":" + seconds;
+
+    setStartTime(dateString + " " + timeString);
+  }, []);
 
   useEffect(() => {
     if (loopCycle === 0) return;

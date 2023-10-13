@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { doneAlarm } from "../../api/timer";
 import { ArrowLeftIc, ArrowRightIc, ShowStrechIc, TurtleIc } from "../../assets";
 import stretch from "../../assets/image/stretch.png";
+import { token } from "../../atom/common/token";
 import Modal from "../common/Modal";
 import TurtledHeader from "../common/TurtledHeader";
 import TurtleTimer from "./TurtleTimer";
@@ -13,6 +15,8 @@ export default function Timer() {
   const [loopCycle, setLoopCycle] = useState(0);
   const [isShow, setIsShow] = useState(false);
   const [isShowEndModal, setIsShowEndModal] = useState(false);
+  const deviceToken = useRecoilValue(token);
+  const [endTime, setEndTime] = useState("");
 
   function handleMinusTime() {
     if (Number(loopTime.split(":")[0]) === 0) {
@@ -34,7 +38,7 @@ export default function Timer() {
     setLoopCycle((il) => il + 1);
   }
 
-  const { mutate: stopStretching } = useMutation(["stopStretching"], doneAlarm, {
+  const { mutate: stopStretching } = useMutation(["stopStretching"], () => doneAlarm(deviceToken, endTime, loopCycle), {
     onSuccess: (res) => {
       console.log(res);
     },
@@ -44,8 +48,24 @@ export default function Timer() {
   });
 
   function handleStopStretching() {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ("0" + (today.getMonth() + 1)).slice(-2);
+    let day = ("0" + today.getDate()).slice(-2);
+
+    let dateString = year + "-" + month + "-" + day;
+
+    let hours = ("0" + today.getHours()).slice(-2);
+    let minutes = ("0" + today.getMinutes()).slice(-2);
+    let seconds = ("0" + today.getSeconds()).slice(-2);
+
+    let timeString = hours + ":" + minutes + ":" + seconds;
+
+    setEndTime(dateString + " " + timeString);
     setIsShowEndModal(true);
-    stopStretching(loopCycle);
+    stopStretching();
+
+    console.log("ddd");
   }
 
   function handleShowStrech() {

@@ -2,15 +2,22 @@ import axios from "axios";
 import { getCookie } from "./cookie";
 
 interface LoginType {
-  email: string;
+  username: string;
   password: string;
 }
 
 export async function login(formData: LoginType) {
-  console.log("asdf");
+  console.log(formData);
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/login/local`,
-    { userName: formData.email, password: formData.password },
+    {
+      username: formData.username,
+      password: formData.password,
+      grant_type: null,
+      scope: null,
+      client_id: null,
+      client_secret: null,
+    },
     {
       headers: {
         "Content-Type": "application/json",
@@ -31,25 +38,14 @@ interface SignupType {
 }
 
 export async function signup(formData: SignupType) {
+  console.log("Asdf");
   const data = await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/signup`, formData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
 
-  return data;
-}
-
-export async function registerToken(token: string) {
-  const data = await axios.post(
-    `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/register`,
-    { token: token },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
+  console.log(data);
 
   return data;
 }
@@ -65,14 +61,14 @@ export async function getMypage() {
   return data.data;
 }
 
-export async function postDeviceToken(token: string) {
+export async function postDeviceTokenWithoutLogin(token: string) {
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/register`,
     { token: token },
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getCookie("accessToken")}`,
+        // Authorization: `Bearer ${getCookie("accessToken")}`,
       },
     },
   );
@@ -80,15 +76,16 @@ export async function postDeviceToken(token: string) {
   return data;
 }
 
-export async function postDeviceTokenWithoutLogin(token: string) {
+export async function postDeviceToken(token: string) {
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/register/login`,
-    { user_id: null, token: token },
+    { token: token },
     {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${getCookie("accessToken")}`,
-        token: token,
+
+        // token: token,
       },
     },
   );

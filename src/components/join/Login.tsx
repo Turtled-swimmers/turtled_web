@@ -21,6 +21,7 @@ export default function Login() {
 
   const { mutate: loginData } = useMutation(["login"], login, {
     onSuccess: (accessToken) => {
+      console.log(accessToken);
       setCookie("accessToken", accessToken, {
         secure: true,
       });
@@ -32,8 +33,7 @@ export default function Login() {
   });
 
   const onSubmitHandler: SubmitHandler<LoginFormValue> = (data) => {
-    console.log(data);
-    loginData(data);
+    loginData({ username: data.email, password: data.password });
   };
 
   function handleMoveToSignup() {
