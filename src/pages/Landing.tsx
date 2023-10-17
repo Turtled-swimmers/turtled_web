@@ -254,7 +254,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
-  width: 130px;
+  /* width: 130px; */
 `;
 
 const Header = styled.header`
@@ -273,6 +273,8 @@ const Button = styled.button`
   padding: 0.5rem 1rem;
 
   border-radius: 5rem;
+
+  margin: 0 0.5rem;
 
   color: ${({ theme }) => theme.colors.green};
   border: 1px solid ${({ theme }) => theme.colors.green};
