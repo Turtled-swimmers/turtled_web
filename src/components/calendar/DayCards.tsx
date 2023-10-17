@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import useGetCalendarDay from "../../hooks/useGetCalendarDay";
-import DayCard from "./DayCard";
 
 interface DayCarsProps {
   selectedDate: string;
@@ -14,7 +13,7 @@ export default function DayCards(props: DayCarsProps) {
     <>
       {selectedDate.length > 0 && (
         <DayCardsContainer>
-          {dayData?.map(({ start_time, end_time, repeat_time, count }, idx) => (
+          {/* {dayData?.map(({ start_time, end_time, repeat_time, count }, idx) => (
             <DayCard
               key={idx}
               session={idx + 1}
@@ -23,7 +22,7 @@ export default function DayCards(props: DayCarsProps) {
               repeatTime={repeat_time}
               count={count}
             />
-          ))}
+          ))} */}
         </DayCardsContainer>
       )}
     </>
