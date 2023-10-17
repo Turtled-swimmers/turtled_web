@@ -13,13 +13,13 @@ export default function useFooterMove() {
     );
     switch (category) {
       case FOOTER_CATEGORY.streching:
-        navigate("/");
+        navigate("/home");
         break;
       case FOOTER_CATEGORY.calendar:
         navigate("/calendar");
         break;
-      case FOOTER_CATEGORY.medal:
-        navigate("/medal");
+      case FOOTER_CATEGORY.photo:
+        navigate("/photo");
         break;
       case FOOTER_CATEGORY.profile:
         navigate("/profile");

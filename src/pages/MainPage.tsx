@@ -7,9 +7,15 @@ import { postDeviceToken, postDeviceTokenWithoutLogin } from "../api/auth";
 import { token } from "../atom/common/token";
 import Footer from "../components/common/Footer";
 import Timer from "../components/timer";
+import { FOOTER_CATEGORY } from "../core/footerCategory";
+import useFooterMove from "../hooks/useFooterMove";
 import { isLogined } from "../utils/join/isLogined";
 
 export default function MainPage() {
+  const { handleMoveToPage } = useFooterMove();
+  useEffect(() => {
+    handleMoveToPage(FOOTER_CATEGORY.streching);
+  }, []);
   const [deviceToken, setDeviceToken] = useRecoilState(token);
 
   const firebaseConfig = {

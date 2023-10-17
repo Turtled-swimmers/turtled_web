@@ -1,16 +1,14 @@
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getMypage } from "../../api/auth";
 import { OffAlarmIc, OnAlarmIc } from "../../assets";
-import { alarm } from "../../atom/common/alram";
+import { token } from "../../atom/common/token";
 
 export default function Profile() {
-  const [isToggle, setIsToggle] = useRecoilState(alarm);
-
-  function handleToggle() {
-    setIsToggle((it) => !it);
-  }
+  const [deviceToken, setDeviceToken] = useRecoilState(token);
+  const navigate = useNavigate();
 
   const { data: profile } = useQuery(["profile"], getMypage, {
     onSuccess: () => {},
@@ -19,15 +17,22 @@ export default function Profile() {
     },
   });
 
+  function handleMoveToMedal() {
+    navigate("/medal");
+  }
+
   return (
     <ProfileWrapper>
       <Box isAlarm={true}>
-        <NickName>{profile.nickName}</NickName>
+        <NickName>{profile.username}</NickName>
         <Email>{profile.email}</Email>
       </Box>
       <Box isAlarm={true}>
         <Content>알림 허용</Content>
-        <div onClick={handleToggle}>{isToggle ? <OnAlarmIc /> : <OffAlarmIc />}</div>
+        <div>{deviceToken ? <OnAlarmIc /> : <OffAlarmIc />}</div>
+      </Box>
+      <Box isAlarm={false}>
+        <Content onClick={handleMoveToMedal}>메달</Content>
       </Box>
       <Box isAlarm={false}>
         <Content>버전 정보</Content>

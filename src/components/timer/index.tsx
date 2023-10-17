@@ -64,8 +64,6 @@ export default function Timer() {
     setEndTime(dateString + " " + timeString);
     setIsShowEndModal(true);
     stopStretching();
-
-    console.log("ddd");
   }
 
   function handleShowStrech() {

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface MedalCardProps {
-  medal: { title: string; content: string; image: string };
+  medal: { title: string; content?: string; image: string };
 }
 
 export default function MedalCard({ medal }: MedalCardProps) {

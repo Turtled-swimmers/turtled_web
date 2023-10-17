@@ -25,7 +25,7 @@ export default function Login() {
       setCookie("accessToken", accessToken, {
         secure: true,
       });
-      navigate("/");
+      navigate("/home");
     },
     onError: (err) => {
       console.log(err);
@@ -52,7 +52,7 @@ export default function Login() {
 
         <BottomSection>
           <>비밀번호 찾기 </>
-          <> | </>
+          <> | &nbsp;</>
           <div onClick={handleMoveToSignup}>회원가입</div>
         </BottomSection>
 
@@ -105,10 +105,11 @@ const SigninWrapper = styled.form`
 const Title = styled.label`
   color: ${({ theme }) => theme.colors.green};
   ${({ theme }) => theme.fonts.sub};
+  margin-top: 2rem;
 `;
 
 const Error = styled.p`
-  color: "#FCB3A6";
+  color: #fcb3a6;
   ${({ theme }) => theme.fonts.caption};
 `;
 
@@ -117,5 +118,4 @@ const Input = styled.input`
   border-radius: 1rem;
   width: 100%;
   border: 1px solid ${({ theme }) => theme.colors.green};
-  margin-bottom: 2rem;
 `;

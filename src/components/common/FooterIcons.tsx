@@ -1,8 +1,8 @@
 import {
   FooterCalendarActiveIc,
   FooterCalendarIc,
-  FooterMedalActiveIc,
-  FooterMedalIc,
+  FooterPhotoActiveIc,
+  FooterPhotoIc,
   FooterProfileActiveIc,
   FooterProfileIc,
   FooterStrechingActiveIc,
@@ -23,8 +23,8 @@ export default function FooterIcons(props: FooterIconsProps) {
       return isMoved ? <FooterStrechingActiveIc /> : <FooterStrechingIc />;
     case FOOTER_CATEGORY.calendar:
       return isMoved ? <FooterCalendarActiveIc /> : <FooterCalendarIc />;
-    case FOOTER_CATEGORY.medal:
-      return isMoved ? <FooterMedalActiveIc /> : <FooterMedalIc />;
+    case FOOTER_CATEGORY.photo:
+      return isMoved ? <FooterPhotoActiveIc /> : <FooterPhotoIc />;
     case FOOTER_CATEGORY.profile:
       return isMoved ? <FooterProfileActiveIc /> : <FooterProfileIc />;
     default:

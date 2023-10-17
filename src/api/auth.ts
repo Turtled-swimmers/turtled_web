@@ -7,27 +7,20 @@ interface LoginType {
 }
 
 export async function login(formData: LoginType) {
-  console.log(formData);
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/login/local`,
     {
       username: formData.username,
       password: formData.password,
-      grant_type: null,
-      scope: null,
-      client_id: null,
-      client_secret: null,
     },
     {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     },
   );
 
-  console.log(data);
-
-  return data.data.jwt.access_token;
+  return data.data.access_token;
 }
 
 interface SignupType {
@@ -45,18 +38,22 @@ export async function signup(formData: SignupType) {
     },
   });
 
-  console.log(data);
-
   return data;
 }
 
 export async function getMypage() {
-  const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/profile`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${getCookie("accessToken")}`,
+  const data = await axios.post(
+    `${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/profile`,
+    {},
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("accessToken")}`,
+      },
     },
-  });
+  );
+
+  console.log(data);
 
   return data.data;
 }

@@ -1,4 +1,6 @@
 export { ReactComponent as Close } from "./icon/Close.svg";
+export { ReactComponent as FooterPhotoActiveIc } from "./icon/FooterPhotoActiveIc.svg";
+export { ReactComponent as FooterPhotoIc } from "./icon/FooterPhotoIc.svg";
 export { ReactComponent as TurtledMainLogoIc } from "./icon/TurtledMainLogoIc.svg";
 export { ReactComponent as ArrowLeftIc } from "./icon/arrowLeftIc.svg";
 export { ReactComponent as ArrowRightIc } from "./icon/arrowRightIc.svg";
@@ -10,6 +12,7 @@ export { ReactComponent as FooterProfileActiveIc } from "./icon/footerProfileAct
 export { ReactComponent as FooterProfileIc } from "./icon/footerProfileIc.svg";
 export { ReactComponent as FooterStrechingActiveIc } from "./icon/footerStrechingActiveIc.svg";
 export { ReactComponent as FooterStrechingIc } from "./icon/footerStrechingIc.svg";
+export { ReactComponent as HiTurtleIc } from "./icon/hiTurtleIc.svg";
 export { ReactComponent as NotificationIc } from "./icon/notificationIc.svg";
 export { ReactComponent as OffAlarmIc } from "./icon/offAlarmIc.svg";
 export { ReactComponent as OnAlarmIc } from "./icon/onAlarmIc.svg";

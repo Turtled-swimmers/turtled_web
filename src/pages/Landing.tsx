@@ -25,7 +25,7 @@ export default function Landing() {
         <Sub>거북목은 이제 과거다!</Sub>
         <Center>
           <TurtledPersonIcon />
-          <Caption>거북목 조심하라는 글을 본 나.jpg</Caption>
+          <SubCaption>거북목 조심하라는 글을 본 나.jpg</SubCaption>
           <CenterTitle>
             온 세상 거북목들을
             <br />
@@ -164,50 +164,55 @@ const Circle = styled.div`
   width: 100%;
   height: 105rem;
   flex-shrink: 0;
-  border-radius: 75.6162rem;
+  border-radius: 100rem;
   background: #98cdb3;
 
   margin-top: 20rem;
 `;
 
 const Phone1Image = styled(Phone1)`
-  width: 40rem;
+  width: 130%;
+  margin-top: 5%;
 `;
 
 const Phone2Image = styled(Phone2)`
-  width: 40rem;
+  width: 100%;
 
-  margin-top: -10rem;
-  margin-bottom: -5rem;
+  margin-top: -10%;
+  margin-bottom: -5%;
 `;
 
 const Phone3Image = styled(Phone3)`
-  width: 40rem;
+  width: 100%;
 
-  margin-top: -3rem;
+  margin-top: -3%;
 `;
 
 const Phone4Image = styled(Phone4)`
-  width: 40rem;
+  width: 100%;
 
-  margin-top: -10rem;
-  margin-bottom: -5rem;
+  margin-top: -10%;
+  margin-bottom: -5%;
 `;
 
 const TurtledPersonIcon = styled(TurtledPersonIc)`
-  margin-top: 3.3rem;
+  width: 100%;
+  margin-top: 3.3%;
+  height: 80rem;
 `;
 
 const Center = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin-bottom: 10%;
 `;
 
-const Caption = styled.p`
+const SubCaption = styled.p`
   color: #676767;
   font-family: Pretendard;
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
