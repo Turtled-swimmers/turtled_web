@@ -8,13 +8,17 @@ interface DaysProp extends SelectedDataType {
   currentDate: Date;
 }
 
+interface DateType {
+  calendar_date: string;
+}
+
 export default function Days(props: DaysProp) {
   const { currentDate, setSelectedDate } = props;
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate: Date = endOfWeek(monthEnd);
-  const { monthData } = useGetCalendarMonth();
+  const { monthData } = useGetCalendarMonth(`${currentDate.getFullYear()}` + "." + `${currentDate.getMonth()}`);
   // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const rows: React.ReactNode[] = [];
@@ -23,7 +27,7 @@ export default function Days(props: DaysProp) {
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
-      const successedItem = monthData?.find(({ calendar_date }) => isSameDay(new Date(calendar_date), day));
+      const successedItem = monthData?.find(({ calendar_date }: DateType) => isSameDay(new Date(calendar_date), day));
       days.push(
         <DayItem setSelectedDate={setSelectedDate} date={day} key={day.toString()} successedItem={successedItem} />,
       );
