@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HiTurtleIc } from "../assets";
@@ -26,27 +26,27 @@ export default function PhotoPage() {
   function handleModal() {
     setIsShow((is) => !is);
   }
-  let imgRef = useRef();
-  let imgURL;
+  // let imgRef = useRef();
+  // let imgURL;
 
-  let loadImg = (e) => {
-    if (!e.target.files[0]) {
-      // input에서 받은 이미지가 없을경우 함수종료한다.
-      window.alert("이미지를 선택해 주세요.");
-      return;
-    }
+  // let loadImg = (e: any) => {
+  //   if (!e.target.files[0]) {
+  //     // input에서 받은 이미지가 없을경우 함수종료한다.
+  //     window.alert("이미지를 선택해 주세요.");
+  //     return;
+  //   }
 
-    let imgFile = e.target.files[0]; // input에서 받은 이미지파일 객체 저장.
-    imgURL = URL.createObjectURL(imgFile); // 이미지 URL 생성.
-    console.log(imgURL);
+  //   let imgFile = e.target.files[0]; // input에서 받은 이미지파일 객체 저장.
+  //   imgURL = URL.createObjectURL(imgFile); // 이미지 URL 생성.
+  //   console.log(imgURL);
 
-    imgRef.current.setAttribute("src", imgURL); // 생성된 이미지URL을 선택된img요소 src속성에 넣어준다.
-  };
-  const [imageSrc, setImageSrc] = useState("");
-  const encodeFileToBase64 = (fileBlob) => {
+  // imgRef.current.setAttribute("src", imgURL); // 생성된 이미지URL을 선택된img요소 src속성에 넣어준다.
+  //  };
+  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
+  const encodeFileToBase64 = (fileBlob: Blob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       reader.onload = () => {
         setImageSrc(reader.result);
         resolve();
