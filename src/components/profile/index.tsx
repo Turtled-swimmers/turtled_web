@@ -48,6 +48,9 @@ export default function Profile() {
         <Content>문의하기</Content>
         <Sub>{profile?.support_email}</Sub>
       </Box>
+      <Box isAlarm={false} onClick={() => navigate("/login")}>
+        <Content>로그인</Content>
+      </Box>
       <Box isAlarm={false}>
         <Content>로그아웃</Content>
       </Box>
@@ -60,6 +63,8 @@ export default function Profile() {
 
 const ProfileWrapper = styled.section`
   margin-top: 3rem;
+  margin-bottom: 15rem;
+  overflow-y: scroll;
 `;
 
 const Box = styled.div<{ isAlarm: boolean }>`

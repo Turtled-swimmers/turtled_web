@@ -43,7 +43,12 @@ const LoadingImage = styled(TurtleIc)`
 `;
 
 const LoadingText = styled.strong`
-  ${({ theme }) => theme.fonts.title};
   color: white;
+
+  font-family: Pretendard;
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 108%;
   margin-top: -4rem;
 `;

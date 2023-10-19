@@ -8,7 +8,9 @@ export default function Landing() {
     <>
       <LandingWrapper>
         <Header>
-          <TurtledMainLogoIc />
+          <Link to="/home">
+            <TurtledMainLogoIc />
+          </Link>
           <ButtonWrapper>
             <Link to="login">
               <Button type="button">로그인</Button>
