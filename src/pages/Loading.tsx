@@ -43,7 +43,7 @@ const LoadingImage = styled(TurtleIc)`
 `;
 
 const LoadingText = styled.strong`
-  color: white;
+  color: black;
   margin-top: -4rem;
 
   ${({ theme }) => theme.fonts.title};
