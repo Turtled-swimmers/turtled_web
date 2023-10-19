@@ -1,7 +1,15 @@
 import styled from "styled-components";
 
 interface MedalCardProps {
-  medal: { title: string; content?: string; image: string };
+  medal: {
+    medal_id: string;
+    image: string;
+    title: string;
+    subtitle: string;
+    content: string;
+    requirement: string;
+    isAchieved: boolean;
+  };
 }
 
 export default function MedalCard({ medal }: MedalCardProps) {

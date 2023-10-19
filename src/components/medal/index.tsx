@@ -10,14 +10,22 @@ interface MedalType {
 
 export default function Medal() {
   const { medalData } = useGetMedal();
-  const medalList: MedalType[] = [];
-  medalList.push({ ...medalData });
 
   return (
     <MedalContainer>
-      {medalList.map((medal: { title: any; content?: string; image: string }) => {
-        return <MedalCard key={medal.title} medal={medal} />;
-      })}
+      {medalData.map(
+        (medal: {
+          medal_id: string;
+          image: string;
+          title: string;
+          subtitle: string;
+          content: string;
+          requirement: string;
+          isAchieved: boolean;
+        }) => {
+          return <MedalCard key={medal.title} medal={medal} />;
+        },
+      )}
     </MedalContainer>
   );
 }

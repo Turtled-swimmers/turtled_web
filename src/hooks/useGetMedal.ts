@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
-import { getMedal } from "../api/medal";
+import { getLists } from "../api/chanllenge";
 
 export default function useGetMedal() {
-  const { data: medalData } = useQuery(["medalData"], getMedal, {
+  const { data: medalData } = useQuery(["medalData"], getLists, {
     onSuccess: () => {},
     onError: (err) => {
       console.log(err);

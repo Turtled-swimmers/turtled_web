@@ -11,7 +11,9 @@ export default function Profile() {
   const navigate = useNavigate();
 
   const { data: profile } = useQuery(["profile"], getMypage, {
-    onSuccess: () => {},
+    onSuccess: (res) => {
+      console.log(res);
+    },
     onError: (err) => {
       console.log(err);
     },
@@ -21,11 +23,15 @@ export default function Profile() {
     navigate("/medal");
   }
 
+  function handleMoveToAlarma() {
+    navigate("/alarm");
+  }
+
   return (
     <ProfileWrapper>
       <Box isAlarm={true}>
-        <NickName>{profile.username}</NickName>
-        <Email>{profile.email}</Email>
+        <NickName>{profile?.username}</NickName>
+        <Email>{profile?.email}</Email>
       </Box>
       <Box isAlarm={true}>
         <Content>알림 허용</Content>
@@ -40,10 +46,13 @@ export default function Profile() {
       </Box>
       <Box isAlarm={false}>
         <Content>문의하기</Content>
-        <Sub>turtled@gmail.com</Sub>
+        <Sub>{profile?.support_email}</Sub>
       </Box>
       <Box isAlarm={false}>
         <Content>로그아웃</Content>
+      </Box>
+      <Box isAlarm={false} onClick={handleMoveToAlarm}>
+        <Content>디바이스 토큰 확인</Content>
       </Box>
     </ProfileWrapper>
   );

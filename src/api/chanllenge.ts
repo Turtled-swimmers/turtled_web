@@ -1,12 +1,11 @@
 import axios from "axios";
 import { getCookie } from "./cookie";
 
-export async function getLists(count: number) {
+export async function getLists() {
   const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/list`, {
     headers: {
       "Content-Type": "application/json",
-      // Authorization: `Bearer ${getCookie("accessToken")}`,
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbXkwNDgwQG5hdmVyLmNvbSIsImV4cCI6MTY5NzE5Mzc3Mn0.W61U2L-El6HsJIoCJ06IBsvdjFXDpN3eeI5-r3hFFjg`,
+      Authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
   console.log(data);

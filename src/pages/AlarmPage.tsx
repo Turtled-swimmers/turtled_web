@@ -2,12 +2,20 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { alarm } from "../atom/common/alram";
+import Footer from "../components/common/Footer";
+import { FOOTER_CATEGORY } from "../core/footerCategory";
+import useFooterMove from "../hooks/useFooterMove";
 
 export default function AlarmPage() {
   // 임시
+  const { handleMoveToPage } = useFooterMove();
+  useEffect(() => {
+    handleMoveToPage(FOOTER_CATEGORY.profile);
+  }, []);
 
   const [deviceToken, setDeviceToken] = useState("");
   const [isToggle, setIsToggle] = useRecoilState(alarm);
@@ -44,6 +52,7 @@ export default function AlarmPage() {
     const token = await getToken(messaging, {
       vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
     });
+    import { useNavigate } from "react-router-dom";
 
     setDeviceToken(token);
 
@@ -51,26 +60,6 @@ export default function AlarmPage() {
       console.log("알림 권한 허용 안됨");
     }
   }
-
-  // const { mutate } = useMutation(postToken, {
-  //   onSuccess: (res) => {
-  //     console.log(res);
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   },
-  // });
-
-  //   async function getDeviceToken() {
-  //     const token = await getToken(messaging, {
-  //       vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
-  //     });
-  //     setDeviceToken(token);
-  //   }
-
-  //   function handleAttend() {
-  //     getDeviceToken();
-  //   }
 
   useEffect(() => {
     // mutate(deviceToken);
@@ -89,11 +78,22 @@ export default function AlarmPage() {
       alert("링크 복사에 실패했습니다");
     }
   }
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <Button onClick={handleAllowAlarm}>알림 허용</Button>
-      <Button onClick={() => handleCopyClipBoard(deviceToken)}>토큰 복사하기</Button>
+      <Button type="button" onClick={() => navigate(-1)}>
+        뒤로가기
+      </Button>
+      <Button type="button" onClick={handleAllowAlarm}>
+        알림 허용
+      </Button>
+      <Button type="button" onClick={() => handleCopyClipBoard(deviceToken)}>
+        토큰 복사하기
+      </Button>
       {deviceToken}
+      <Footer />
     </>
   );
 }
