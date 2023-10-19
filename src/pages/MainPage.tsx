@@ -63,18 +63,12 @@ export default function MainPage() {
   }, []);
 
   const { mutate: postTokenWithoutLogin } = useMutation(["postDeviceTokenWithoutLogin"], postDeviceTokenWithoutLogin, {
-    onSuccess: (res) => {
-      console.log("성공");
-    },
     onError: (err) => {
-      console.log("에러");
+      console.log(err);
     },
   });
 
   const { mutate: postToken } = useMutation(["postDeviceToken"], postDeviceToken, {
-    onSuccess: () => {
-      console.log("성공");
-    },
     onError: (err) => {
       console.log(err);
     },

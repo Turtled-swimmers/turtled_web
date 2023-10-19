@@ -1,19 +1,20 @@
-import { useQuery } from "react-query";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken } from "firebase/messaging";
+import { useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { getMypage } from "../../api/auth";
+import { getMypage, postDeviceToken, postDeviceTokenWithoutLogin } from "../../api/auth";
 import { OffAlarmIc, OnAlarmIc } from "../../assets";
 import { token } from "../../atom/common/token";
+import { isLogined } from "../../utils/join/isLogined";
 
 export default function Profile() {
   const [deviceToken, setDeviceToken] = useRecoilState(token);
   const navigate = useNavigate();
 
   const { data: profile } = useQuery(["profile"], getMypage, {
-    onSuccess: (res) => {
-      console.log(res);
-    },
     onError: (err) => {
       console.log(err);
     },
@@ -27,13 +28,75 @@ export default function Profile() {
     navigate("/alarm");
   }
 
+  const firebaseConfig = {
+    apiKey: import.meta.env.VITE_APP_API_KEY,
+    authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_APP_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_APP_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_APP_ID,
+    measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  function registerServiceWorker() {
+    navigator.serviceWorker
+      .register("firebase-messaging-sw.js")
+      .then(function (registration) {
+        console.log("Service Worker 등록 성공:", registration);
+      })
+      .catch(function (error) {
+        console.log("Service Worker 등록 실패:", error);
+      });
+  }
+
+  async function handleAllowAlarm() {
+    const permission = await Notification.requestPermission();
+
+    registerServiceWorker();
+
+    const token = await getToken(messaging, {
+      vapidKey: import.meta.env.VITE_APP_VAPID_KEY,
+    });
+
+    setDeviceToken(token);
+
+    if (permission === "denied") {
+      console.log("알림 권한 허용 안됨");
+    }
+  }
+
+  const { mutate: postTokenWithoutLogin } = useMutation(["postDeviceTokenWithoutLogin"], postDeviceTokenWithoutLogin, {
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutate: postToken } = useMutation(["postDeviceToken"], postDeviceToken, {
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  useEffect(() => {
+    if (deviceToken !== "" && deviceToken !== undefined) {
+      if (isLogined()) {
+        postToken(deviceToken);
+      } else {
+        postTokenWithoutLogin(deviceToken);
+      }
+    }
+  }, [deviceToken]);
+
   return (
     <ProfileWrapper>
       <Box isAlarm={true}>
         <NickName>{profile?.username}</NickName>
         <Email>{profile?.email}</Email>
       </Box>
-      <Box isAlarm={true}>
+      <Box isAlarm={true} onClick={handleAllowAlarm}>
         <Content>알림 허용</Content>
         <div>{deviceToken ? <OnAlarmIc /> : <OffAlarmIc />}</div>
       </Box>

@@ -41,9 +41,6 @@ export default function Timer() {
   }
 
   const { mutate: stopStretching } = useMutation(["stopStretching"], () => doneAlarm(deviceToken, endTime, loopCycle), {
-    onSuccess: (res) => {
-      console.log(res);
-    },
     onError: (err) => {
       console.log(err);
     },
@@ -65,7 +62,7 @@ export default function Timer() {
 
     setEndTime(dateString + " " + timeString);
   }
-  console.log(endTime);
+
   useEffect(() => {
     if (endTime === "") return;
 

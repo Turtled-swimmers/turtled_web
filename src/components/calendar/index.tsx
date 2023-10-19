@@ -7,7 +7,7 @@ import MonthCalendar from "./MonthCalendar";
 
 export default function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Date | string>("");
-  console.log(selectedDate);
+
   return (
     <>
       <CalendarHeader />

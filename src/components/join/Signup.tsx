@@ -24,8 +24,7 @@ export default function Signup() {
   const navigate = useNavigate();
 
   const { mutate: signupData } = useMutation(["signup"], signup, {
-    onSuccess: (res) => {
-      console.log(res);
+    onSuccess: () => {
       navigate("/login");
     },
     onError: (err) => {
