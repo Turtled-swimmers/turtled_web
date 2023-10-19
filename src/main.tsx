@@ -6,7 +6,7 @@ import App from "./App.tsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // suspense: true,
+      suspense: true,
       // useErrorBoundary: true,
       retry: 0,
     },
