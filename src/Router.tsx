@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AlarmPage from "./pages/AlarmPage";
 import CalendarPage from "./pages/CalendarPage";
+import GuestBook from "./pages/GuestBook";
+import GuestBookWrite from "./pages/GuestBookWrite";
 import Landing from "./pages/Landing";
 import Loading from "./pages/Loading";
 import LoginPage from "./pages/LoginPage";
@@ -24,6 +26,8 @@ export default function Router() {
         <Route path="/alarm" element={<AlarmPage />} />
         <Route path="/photo" element={<PhotoPage />} />
         <Route path="/loading" element={<Loading />} />
+        <Route path="/guest-book" element={<GuestBook />} />
+        <Route path="/guest-book/send" element={<GuestBookWrite />} />
       </Routes>
     </BrowserRouter>
   );

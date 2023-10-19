@@ -1,0 +1,12 @@
+export const IMG = [
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/0.png?alt=media&token=f760bd06-7dc3-411e-b2ae-60c442bb4293&_gl=1*k9e8tj*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODE3NC42MC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/1.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/2.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/3.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/4.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/5.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/6.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/7.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/8.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/turtled-fcm.appspot.com/o/9.png?alt=media&token=2155b5ae-ddfb-4e06-b72b-27686e9430e8&_gl=1*cvbpe*_ga*MjkxOTEwNTU5LjE2OTYxNzAwMDU.*_ga_CW55HF8NVT*MTY5Nzc0NTQ3Mi43LjEuMTY5Nzc0ODIxNC4yMC4wLjA.",
+];
