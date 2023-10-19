@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { HiTurtleIc } from "../assets";
+import img1 from "../assets/image/img1.png";
+import img2 from "../assets/image/img2.jpeg";
 import Footer from "../components/common/Footer";
 import Modal from "../components/common/Modal";
 import PhotoHeader from "../components/common/PhotoHeader";
@@ -19,23 +21,53 @@ export default function PhotoPage() {
   const [isShow, setIsShow] = useState(false);
   const [isShowResult, setIsShowResult] = useState(false);
 
+  const [percent, setPercent] = useState(0);
+
   function handleModal() {
     setIsShow((is) => !is);
   }
+  let imgRef = useRef();
+  let imgURL;
 
-  function handleGetFile() {}
+  let loadImg = (e) => {
+    if (!e.target.files[0]) {
+      // input에서 받은 이미지가 없을경우 함수종료한다.
+      window.alert("이미지를 선택해 주세요.");
+      return;
+    }
+
+    let imgFile = e.target.files[0]; // input에서 받은 이미지파일 객체 저장.
+    imgURL = URL.createObjectURL(imgFile); // 이미지 URL 생성.
+    console.log(imgURL);
+
+    imgRef.current.setAttribute("src", imgURL); // 생성된 이미지URL을 선택된img요소 src속성에 넣어준다.
+  };
+  const [imageSrc, setImageSrc] = useState("");
+  const encodeFileToBase64 = (fileBlob) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImageSrc(reader.result);
+        resolve();
+      };
+    });
+  };
 
   function upload() {
     setIsShowResult(true);
+    setIsShow(false);
+    const random = Math.floor(Math.random() * (80 - 50 + 1)) + 50;
+    setPercent(random);
   }
 
   return (
-    <>
+    <Page>
       {isShowResult && (
         <Modal handleClickSingleButton={() => setIsShowResult(false)}>
           <ModalWrapper>
-            <ModalTitle>당신의 거북목 지수는 70%입니다!</ModalTitle>
-            <ModalSub>Turtled와 함께 거북목을 극복해봐요!</ModalSub>
+            <ModalTitle>당신의 거북목 지수는 {percent}%입니다!</ModalTitle>
+            <ModalSub>Turtled와 함께 거북목을 극복해보아요!</ModalSub>
             <Button type="button" onClick={() => navigate("/home")}>
               홈으로 이동
             </Button>
@@ -52,7 +84,13 @@ export default function PhotoPage() {
               <br />더 정확하게 측정가능하답니다!
             </ModalSub>
 
-            <Input type="file" accept=".mp4, .mov" onChange={handleGetFile} />
+            <Input
+              type="file"
+              onChange={(e) => {
+                encodeFileToBase64(e.target.files[0]);
+                console.log(e.target.files[0].name);
+              }}
+            />
 
             <Button type="button" onClick={upload}>
               업로드하기
@@ -68,11 +106,60 @@ export default function PhotoPage() {
           <Button onClick={handleModal}>측정하기</Button>
         </Center>
         <Title>기록</Title>
+        <Box>
+          <RealImg src={img1} />
+          <TextWrapper>
+            <p>2023.10.20</p>
+            <p>거북목 측정 결과 : 82%</p>
+          </TextWrapper>
+        </Box>
+        <Box>
+          <RealImg src={img2} />
+          <TextWrapper>
+            <p>2023.10.20</p>
+            <p>거북목 측정 결과 : 74%</p>
+          </TextWrapper>
+        </Box>
+        {imageSrc && percent && (
+          <Box>
+            <RealImg src={imageSrc} alt="이미지" />
+            <TextWrapper>
+              <p>2023.10.20</p>
+              <p>거북목 측정 결과 : {percent}%</p>
+            </TextWrapper>
+          </Box>
+        )}
       </ContentWrapper>
       <Footer />
-    </>
+    </Page>
   );
 }
+
+const Page = styled.div`
+  padding-bottom: 15rem;
+  overflow: scroll;
+`;
+
+const RealImg = styled.img`
+  width: 20%;
+  border-radius: 1rem;
+  margin-right: 2rem;
+`;
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Box = styled.article`
+  width: 100%;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: flex;
+  background-color: ${({ theme }) => theme.colors.gray2};
+  ${({ theme }) => theme.fonts.sub}
+`;
 
 const Input = styled.input`
   margin-top: 2rem;
