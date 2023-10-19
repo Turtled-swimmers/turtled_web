@@ -87,8 +87,8 @@ export default function PhotoPage() {
             <Input
               type="file"
               onChange={(e) => {
-                encodeFileToBase64(e.target.files[0]);
-                console.log(e.target.files[0].name);
+                e.target.files && encodeFileToBase64(e.target.files[0]);
+                // console.log(e.target.files[0].name);
               }}
             />
 
@@ -120,9 +120,9 @@ export default function PhotoPage() {
             <p>거북목 측정 결과 : 74%</p>
           </TextWrapper>
         </Box>
-        {imageSrc && percent && (
+        {imageSrc !== undefined && percent && (
           <Box>
-            <RealImg src={imageSrc} alt="이미지" />
+            <RealImg src={`${imageSrc}`} alt="이미지" />
             <TextWrapper>
               <p>2023.10.20</p>
               <p>거북목 측정 결과 : {percent}%</p>
