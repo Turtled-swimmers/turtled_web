@@ -23,7 +23,7 @@ export default function Profile() {
     navigate("/medal");
   }
 
-  function handleMoveToAlarma() {
+  function handleMoveToAlarm() {
     navigate("/alarm");
   }
 

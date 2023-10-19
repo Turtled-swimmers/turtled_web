@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { postAlarm } from "../../api/timer";
+import { alarm, postAlarm } from "../../api/timer";
 import { TimerBackIc, TimerFrontIc, TurtleIc } from "../../assets";
 import { token } from "../../atom/common/token";
 
@@ -14,12 +14,20 @@ interface TurtleTimerProp {
 
 export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: TurtleTimerProp) {
   const [time, setTime] = useState(0); // 남은 시간 (단위: 초)
-  const [isShow, setIsShow] = useState(false);
-  const timeToStrech = Number(loopTime.split(":")[0]) * 60;
+  const timeToStrech = Number(loopTime.split(":")[0]) * 60 + Number(loopTime.split(":")[1]);
   const deviceToken = useRecoilValue(token);
   const [startTime, setStartTime] = useState("");
 
-  const { mutate: sendAlarm } = useMutation(["sendAlarm"], () => postAlarm(deviceToken, loopCycle, startTime), {
+  const { mutate: sendAlarm } = useMutation(() => postAlarm(deviceToken, loopCycle, startTime), {
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutate: getAlarm } = useMutation(() => alarm(deviceToken), {
     onSuccess: (res) => {
       console.log(res);
     },
@@ -59,6 +67,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
       handleSetTimes();
       sendAlarm();
       setTime(0);
+      getAlarm();
       //   alert("Time OVER!");
     }
   }, [time]);
@@ -70,14 +79,6 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     } else {
       return String(seconds);
     }
-  }
-
-  function handleShowStrech() {
-    setIsShow(true);
-  }
-
-  function handleCloseStrech() {
-    setIsShow(false);
   }
 
   return (

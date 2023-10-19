@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AlarmPage from "./pages/AlarmPage";
 import CalendarPage from "./pages/CalendarPage";
 import Landing from "./pages/Landing";
+import Loading from "./pages/Loading";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import MedalPage from "./pages/MedalPage";
@@ -22,6 +23,7 @@ export default function Router() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/alarm" element={<AlarmPage />} />
         <Route path="/photo" element={<PhotoPage />} />
+        <Route path="/loading" element={<Loading />} />
       </Routes>
     </BrowserRouter>
   );

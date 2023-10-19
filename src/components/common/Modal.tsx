@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { Close } from "../../assets";
-import useModal from "../../hooks/useModal";
 
 interface ModalProps {
   children: ReactNode;
@@ -10,10 +9,10 @@ interface ModalProps {
 
 export default function Modal(props: ModalProps) {
   const { children, handleClickSingleButton } = props;
-  const { modalRef, closeModal } = useModal();
+  // const { modalRef, closeModal } = useModal();
 
   return (
-    <ModalWrapper ref={modalRef}>
+    <ModalWrapper>
       <ModalBox>
         <Icon onClick={handleClickSingleButton}>
           <CloseIcon />

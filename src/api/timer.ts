@@ -2,7 +2,6 @@ import axios from "axios";
 import { getCookie } from "./cookie";
 
 export async function postAlarm(token: string, cycle: number, start: string) {
-  console.log("post alarm");
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/timers/alarm`,
     {
@@ -18,12 +17,32 @@ export async function postAlarm(token: string, cycle: number, start: string) {
     },
   );
 
-  console.log(data);
+  return data.data;
+}
+
+export async function alarm(token: string) {
+  const data = await axios.post(
+    `${import.meta.env.VITE_APP_BASE_URL}/api/v1/timers/message`,
+    {
+      device_token: token,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("accessToken")}`,
+      },
+    },
+  );
+
   return data.data;
 }
 
 export async function doneAlarm(token: string, end: string, count: number) {
-  console.log("done alarm");
+  console.log({
+    device_token: token,
+    end_time: end,
+    count: count,
+  });
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/timers/done`,
     {
@@ -38,8 +57,6 @@ export async function doneAlarm(token: string, end: string, count: number) {
       },
     },
   );
-
-  console.log(data);
 
   return data.data;
 }

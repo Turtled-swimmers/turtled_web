@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ import TurtledHeader from "../common/TurtledHeader";
 import TurtleTimer from "./TurtleTimer";
 
 export default function Timer() {
-  const [loopTime, setLoopTime] = useState("0:00");
+  const [loopTime, setLoopTime] = useState("0:10");
   const [loopCycle, setLoopCycle] = useState(0);
   const [isShow, setIsShow] = useState(false);
   const [isShowEndModal, setIsShowEndModal] = useState(false);
@@ -28,7 +28,7 @@ export default function Timer() {
 
   function handlePlusTime() {
     if (Number(loopTime.split(":")[0]) === 60) {
-      setLoopTime("0:00");
+      setLoopTime("0:10");
     } else {
       setLoopTime(`${Number(loopTime.split(":")[0]) + 1}` + ":00");
     }
@@ -62,9 +62,14 @@ export default function Timer() {
     let timeString = hours + ":" + minutes + ":" + seconds;
 
     setEndTime(dateString + " " + timeString);
+  }
+
+  useEffect(() => {
+    if (endTime === "") return;
+
     setIsShowEndModal(true);
     stopStretching();
-  }
+  }, [endTime]);
 
   function handleShowStrech() {
     setIsShow(true);
@@ -72,6 +77,39 @@ export default function Timer() {
 
   function handleCloseStrech() {
     setIsShow(false);
+  }
+
+  const MESSAGE = [
+    "스트레칭 할 시간이다거북!🐢",
+    "이거보면 우리 스트레칭하는거다?😏",
+    "앗🤭 거북목 수술 500만 원! 💸💸",
+    "목을 쭈우욱…🐢 쭈우욱…🐢 넣..어..보..자..",
+    "거북님🐢 땅으로 올라갈 시간이에요!",
+  ];
+
+  const [messageCount, setMessageCount] = useState(0);
+  useEffect(() => {
+    setTimeout(() => (messageCount + 1 > 4 ? setMessageCount(0) : setMessageCount((mc) => mc + 1)), 3000);
+  }, [messageCount]);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", closeModal);
+    return () => {
+      document.removeEventListener("mousedown", closeModal);
+    };
+  }, [isShowEndModal]);
+
+  function isClickedOutside(e: MouseEvent) {
+    return isShowEndModal && !modalRef.current?.contains(e.target as Node);
+  }
+
+  function closeModal(e: MouseEvent) {
+    if (isClickedOutside(e)) {
+      // setIsShowEndModal(false);
+      () => window.location.reload();
+    }
   }
 
   return (
@@ -86,19 +124,21 @@ export default function Timer() {
         </Modal>
       )}
       {isShowEndModal && (
-        <Modal handleClickSingleButton={() => window.location.reload()}>
-          <ModalWrapper>
-            <ModalTitle>스트레칭 끝 !</ModalTitle>
-            <ModalSub>총 {loopCycle - 2}번을 하셨습니다!</ModalSub>
-            <ModalContent>타이머 주기 : {loopTime.split(":")[0]}분</ModalContent>
-            <TurtleIcon />
-          </ModalWrapper>
-        </Modal>
+        <div onClick={() => window.location.reload()}>
+          <Modal handleClickSingleButton={() => window.location.reload()}>
+            <ModalWrapper>
+              <ModalTitle>스트레칭 끝 !</ModalTitle>
+              <ModalSub>총 {loopCycle - 2}번을 하셨습니다!</ModalSub>
+              <ModalContent>타이머 주기 : {loopTime.split(":")[0]}분</ModalContent>
+              <TurtleIcon />
+            </ModalWrapper>
+          </Modal>
+        </div>
       )}
       <TurtledHeader />
       <ShowStrechIcon onClick={handleShowStrech} />
       <TimerWrapper>
-        <Title>{loopCycle === 0 ? <>몇 분 주기로 알림 받으실래요?</> : <>부지런히..하다보면 언젠가는..!</>}</Title>
+        <Title>{loopCycle === 0 ? <>몇 분 주기로 알림 받으실래요?</> : <>{MESSAGE[messageCount]}</>}</Title>
         <TimeSetWrapper>
           <ArrowLeftIc onClick={handleMinusTime} />
           <LootTimeWrapper>{loopTime}</LootTimeWrapper>
