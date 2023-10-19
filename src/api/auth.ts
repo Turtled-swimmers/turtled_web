@@ -31,7 +31,6 @@ interface SignupType {
 }
 
 export async function signup(formData: SignupType) {
-  console.log("Asdf");
   const data = await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/users/signup`, formData, {
     headers: {
       "Content-Type": "application/json",
@@ -52,8 +51,6 @@ export async function getMypage() {
       },
     },
   );
-
-  console.log(data);
 
   return data.data;
 }

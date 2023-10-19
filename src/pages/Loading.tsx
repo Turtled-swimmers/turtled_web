@@ -17,7 +17,7 @@ const Background = styled.div`
   position: fixed;
   inset: 0;
 
-  background-color: rgb(0 0 0 / 40%);
+  background-color: white;
   flex-direction: column;
 `;
 
@@ -25,7 +25,7 @@ const LoadingImage = styled(TurtleIc)`
   z-index: 10;
   height: 20rem;
 
-  animation: rotate 3s ease-out;
+  animation: rotate 1s ease-out;
   animation-iteration-count: infinite;
 
   @keyframes rotate {
@@ -44,11 +44,7 @@ const LoadingImage = styled(TurtleIc)`
 
 const LoadingText = styled.strong`
   color: white;
-
-  font-family: Pretendard;
-  font-size: 2rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 108%;
   margin-top: -4rem;
+
+  ${({ theme }) => theme.fonts.title};
 `;

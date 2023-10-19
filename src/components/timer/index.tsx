@@ -21,6 +21,8 @@ export default function Timer() {
   function handleMinusTime() {
     if (Number(loopTime.split(":")[0]) === 0) {
       setLoopTime("60:00");
+    } else if (Number(loopTime.split(":")[0]) === 1) {
+      setLoopTime("0:10");
     } else {
       setLoopTime(`${Number(loopTime.split(":")[0]) - 1}` + ":00");
     }

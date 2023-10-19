@@ -9,13 +9,13 @@ import { theme } from "./style/theme";
 
 export default function App() {
   return (
-    <Suspense fallback={<Loading />}>
-      <RecoilRoot>
-        <ThemeProvider theme={theme}>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <Suspense fallback={<Loading />}>
           <GlobalStyle />
           <Router />
-        </ThemeProvider>
-      </RecoilRoot>
-    </Suspense>
+        </Suspense>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }

@@ -8,13 +8,11 @@ export async function getLists() {
       Authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
-  console.log(data);
 
   return data.data;
 }
 
 export async function getDaysData(date: string) {
-  console.log(date);
   const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history/detail/${date}`, {
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +25,6 @@ export async function getDaysData(date: string) {
 }
 
 export async function getMonthData(date: string) {
-  console.log(date);
   const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history/${date}`, {
     headers: {
       "Content-Type": "application/json",

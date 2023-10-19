@@ -38,11 +38,6 @@ export async function alarm(token: string) {
 }
 
 export async function doneAlarm(token: string, end: string, count: number) {
-  console.log({
-    device_token: token,
-    end_time: end,
-    count: count,
-  });
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/timers/done`,
     {
