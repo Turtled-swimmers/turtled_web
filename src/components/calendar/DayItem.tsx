@@ -1,12 +1,13 @@
 import { format, getMonth, isSunday, isToday } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
+import { TurtleIc } from "../../assets";
 
 interface DayItemProps {
-  setSelectedDate: Dispatch<SetStateAction<Date>>;
+  setSelectedDate: Dispatch<SetStateAction<Date | string>>;
   date: Date;
   key: string;
-  successedItem: { calendar_date: string; is_true: boolean } | undefined;
+  successedItem: { calendar_date: string; has_event: boolean } | undefined;
 }
 
 export default function DayItem(props: DayItemProps) {
@@ -18,7 +19,12 @@ export default function DayItem(props: DayItemProps) {
   const currentDate: Date = new Date();
 
   function handleShowRecord() {
-    setSelectedDate(date);
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() + 1)).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+
+    let dateString = year + "-" + month + "-" + day;
+    setSelectedDate(dateString);
   }
 
   return (
@@ -28,7 +34,7 @@ export default function DayItem(props: DayItemProps) {
           <DayText $isToday={isTodayDate} $isNotvalid={getMonth(date) !== getMonth(currentDate)}>
             {formattedDate}
           </DayText>
-          {successedItem?.is_true && <Circle onClick={handleShowRecord} />}
+          {successedItem?.has_event && <Circle onClick={handleShowRecord} />}
         </DayBox>
       </DayItemWrapper>
     </DayItemContainer>
@@ -57,15 +63,16 @@ const DayBox = styled.article<{ $isSunday: boolean }>`
   color: ${({ $isSunday }) => $isSunday && "#FCB3A6"};
 `;
 
-const Circle = styled.div`
+const Circle = styled(TurtleIc)`
   display: flex;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 6rem;
+  height: 6rem;
+  margin-top: -4.8rem;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   border-radius: 2rem;
-  background: #98cdb3;
+  /* background: #98cdb3; */
 
   cursor: pointer;
 `;

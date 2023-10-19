@@ -5,7 +5,7 @@ import DaysOfWeek from "./DaysOfWeek";
 import YearNMonth from "./YearNMonth";
 
 export interface SelectedDataType {
-  setSelectedDate: Dispatch<SetStateAction<Date>>;
+  setSelectedDate: Dispatch<SetStateAction<Date | string>>;
 }
 
 export default function MonthCalendar({ setSelectedDate }: SelectedDataType) {

@@ -17,7 +17,7 @@ export async function postAlarm(token: string, cycle: number, start: string) {
     },
   );
 
-  return data.data;
+  return data;
 }
 
 export async function alarm(token: string) {
@@ -34,7 +34,7 @@ export async function alarm(token: string) {
     },
   );
 
-  return data.data;
+  return data;
 }
 
 export async function doneAlarm(token: string, end: string, count: number) {

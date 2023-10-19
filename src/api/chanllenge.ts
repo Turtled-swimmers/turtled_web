@@ -14,11 +14,12 @@ export async function getLists() {
 }
 
 export async function getDaysData(date: string) {
-  const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history/details`, {
+  console.log(date);
+  const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history/detail/${date}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getCookie("accessToken")}`,
-      date: date,
+      // current_date: date,
     },
   });
 
@@ -26,7 +27,8 @@ export async function getDaysData(date: string) {
 }
 
 export async function getMonthData(date: string) {
-  const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history`, {
+  console.log(date);
+  const data = await axios.get(`${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/history/${date}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getCookie("accessToken")}`,

@@ -18,7 +18,7 @@ export default function Days(props: DaysProp) {
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate: Date = endOfWeek(monthEnd);
-  const { monthData } = useGetCalendarMonth(`${currentDate.getFullYear()}` + "." + `${currentDate.getMonth()}`);
+  const { monthData } = useGetCalendarMonth(`${currentDate.getFullYear()}` + "-" + `${currentDate.getMonth() + 1}`);
   // const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const rows: React.ReactNode[] = [];

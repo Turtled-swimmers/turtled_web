@@ -63,7 +63,7 @@ export default function Timer() {
 
     setEndTime(dateString + " " + timeString);
   }
-
+  console.log(endTime);
   useEffect(() => {
     if (endTime === "") return;
 

@@ -20,6 +20,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
 
   const { mutate: sendAlarm } = useMutation(() => postAlarm(deviceToken, loopCycle, startTime), {
     onSuccess: (res) => {
+      console.log("알림보냈다.");
       console.log(res);
     },
     onError: (err) => {
@@ -29,6 +30,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
 
   const { mutate: getAlarm } = useMutation(() => alarm(deviceToken), {
     onSuccess: (res) => {
+      console.log("알림받았다.");
       console.log(res);
     },
     onError: (err) => {
