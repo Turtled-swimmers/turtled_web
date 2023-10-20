@@ -50,7 +50,7 @@ export default function GuestBookWrite() {
     <WriteWrapper>
       <ImgWrapper>
         {IMG.map((image, index) => (
-          <Img src={image} onClick={() => handleSelect(index)} />
+          <Img src={image} onClick={() => handleSelect(index)} isClicked={index === data.turtle} />
         ))}
       </ImgWrapper>
       <Input type="text" placeholder="보내는 사람을 입력해주세요" onChange={handleInputFrom} />
@@ -99,14 +99,16 @@ const ImgWrapper = styled.section`
   margin-bottom: 2rem;
 `;
 
-const Img = styled.img`
-  width: 35%;
+const Img = styled.img<{ isClicked: boolean }>`
+  width: 20%;
   border-radius: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.green};
 
   &:active {
     background-color: ${({ theme }) => theme.colors.green};
   }
+  cursor: pointer;
+  background-color: ${({ theme, isClicked }) => isClicked && theme.colors.green};
 `;
 
 const WriteWrapper = styled.div`
