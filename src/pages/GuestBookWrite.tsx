@@ -100,7 +100,7 @@ const ImgWrapper = styled.section`
 `;
 
 const Img = styled.img<{ isClicked: boolean }>`
-  width: 20%;
+  width: 17%;
   border-radius: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.green};
 

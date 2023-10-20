@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { uploadPhoto } from "../api/photo";
 import { HiTurtleIc } from "../assets";
-import img1 from "../assets/image/img1.png";
-import img2 from "../assets/image/img2.jpeg";
 import Footer from "../components/common/Footer";
 import Modal from "../components/common/Modal";
 import PhotoHeader from "../components/common/PhotoHeader";
 import { FOOTER_CATEGORY } from "../core/footerCategory";
 import useFooterMove from "../hooks/useFooterMove";
+import Loading from "./Loading";
 
 export default function PhotoPage() {
   const { handleMoveToPage } = useFooterMove();
@@ -21,52 +22,44 @@ export default function PhotoPage() {
   const [isShow, setIsShow] = useState(false);
   const [isShowResult, setIsShowResult] = useState(false);
 
-  const [percent, setPercent] = useState(0);
-
   function handleModal() {
     setIsShow((is) => !is);
   }
-  // let imgRef = useRef();
-  // let imgURL;
 
-  // let loadImg = (e: any) => {
-  //   if (!e.target.files[0]) {
-  //     // input에서 받은 이미지가 없을경우 함수종료한다.
-  //     window.alert("이미지를 선택해 주세요.");
-  //     return;
-  //   }
+  const [file, setFile] = useState<File | null>(null);
+  const [result, setResult] = useState({ percentage: 0, image: "" });
+  const { mutate: uploadFile, isLoading } = useMutation(() => uploadPhoto(file), {
+    onSuccess: (response) => {
+      setIsShowResult(true);
+      setIsShow(false);
+      setResult(response);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
-  //   let imgFile = e.target.files[0]; // input에서 받은 이미지파일 객체 저장.
-  //   imgURL = URL.createObjectURL(imgFile); // 이미지 URL 생성.
-  //   console.log(imgURL);
-
-  // imgRef.current.setAttribute("src", imgURL); // 생성된 이미지URL을 선택된img요소 src속성에 넣어준다.
-  //  };
-  const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(null);
-  const encodeFileToBase64 = (fileBlob: Blob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise<void>((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
-  };
-
-  function upload() {
-    setIsShowResult(true);
-    setIsShow(false);
-    const random = Math.floor(Math.random() * (80 - 50 + 1)) + 50;
-    setPercent(random);
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files?.length === 0) {
+    } else {
+      if (e.target.files) {
+        const file = e.target.files[0];
+        if (e.target.files[0]) {
+          setFile(file);
+        }
+      }
+    }
   }
+
+  if (isLoading) return <Loading />;
 
   return (
     <Page>
       {isShowResult && (
         <Modal handleClickSingleButton={() => setIsShowResult(false)}>
           <ModalWrapper>
-            <ModalTitle>당신의 거북목 지수는 {percent}%입니다!</ModalTitle>
+            <ResultImage src={result.image} />
+            <ModalTitle>당신의 거북목 지수는 {result.percentage}%입니다!</ModalTitle>
             <ModalSub>Turtled와 함께 거북목을 극복해보아요!</ModalSub>
             <Button type="button" onClick={() => navigate("/home")}>
               홈으로 이동
@@ -84,15 +77,9 @@ export default function PhotoPage() {
               <br />더 정확하게 측정가능하답니다!
             </ModalSub>
 
-            <Input
-              type="file"
-              onChange={(e) => {
-                e.target.files && encodeFileToBase64(e.target.files[0]);
-                // console.log(e.target.files[0].name);
-              }}
-            />
+            <Input type="file" onChange={handleFileChange} />
 
-            <Button type="button" onClick={upload}>
+            <Button type="button" onClick={() => uploadFile()}>
               업로드하기
             </Button>
           </ModalWrapper>
@@ -105,35 +92,15 @@ export default function PhotoPage() {
           <TurtleIcon />
           <Button onClick={handleModal}>측정하기</Button>
         </Center>
-        <Title>기록</Title>
-        <Box>
-          <RealImg src={img1} />
-          <TextWrapper>
-            <p>2023.10.20</p>
-            <p>거북목 측정 결과 : 82%</p>
-          </TextWrapper>
-        </Box>
-        <Box>
-          <RealImg src={img2} />
-          <TextWrapper>
-            <p>2023.10.20</p>
-            <p>거북목 측정 결과 : 74%</p>
-          </TextWrapper>
-        </Box>
-        {imageSrc !== undefined && percent && (
-          <Box>
-            <RealImg src={`${imageSrc}`} alt="이미지" />
-            <TextWrapper>
-              <p>2023.10.20</p>
-              <p>거북목 측정 결과 : {percent}%</p>
-            </TextWrapper>
-          </Box>
-        )}
       </ContentWrapper>
       <Footer />
     </Page>
   );
 }
+
+const ResultImage = styled.img`
+  width: 80%;
+`;
 
 const Page = styled.div`
   padding-bottom: 15rem;

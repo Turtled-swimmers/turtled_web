@@ -54,7 +54,7 @@ const ModalContents = styled.div`
 const ModalBox = styled.aside`
   display: flex;
   width: 80%;
-  height: 45%;
+  /* height: 45%; */
   padding: 1.6rem;
   gap: 2rem;
   flex-shrink: 0;
