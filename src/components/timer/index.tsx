@@ -131,7 +131,7 @@ export default function Timer() {
           <Modal handleClickSingleButton={() => window.location.reload()}>
             <ModalWrapper>
               <ModalTitle>스트레칭 끝 !</ModalTitle>
-              <ModalSub>총 {loopCycle}번을 하셨습니다!</ModalSub>
+              <ModalSub>총 {loopCycle - 2}번을 하셨습니다!</ModalSub>
               <ModalContent>
                 타이머 주기 : {loopTime.split(":")[0]}분 {loopTime.split(":")[1]}초
               </ModalContent>
