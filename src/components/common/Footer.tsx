@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { footerCategory } from "../../atom/footerCategory";
@@ -7,6 +8,7 @@ import FooterIcons from "./FooterIcons";
 export default function Footer() {
   const [footerList, setFooterList] = useRecoilState<FooterType[]>(footerCategory);
   const { handleMoveToPage } = useFooterMove();
+  const { pathname } = useLocation();
 
   return (
     <FooterWrapper>
@@ -22,7 +24,7 @@ export default function Footer() {
 const FooterWrapper = styled.footer`
   position: fixed;
   bottom: 0;
-
+  z-index: 100;
   display: flex;
   width: 100%;
   height: 8.8rem;

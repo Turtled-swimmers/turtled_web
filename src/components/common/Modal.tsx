@@ -40,6 +40,7 @@ const ModalWrapper = styled.div`
   height: 100%;
   background-color: rgb(33 37 41 / 60%);
   cursor: pointer;
+  overflow: scroll;
 `;
 
 const ModalContents = styled.div`
@@ -53,12 +54,14 @@ const ModalContents = styled.div`
 
 const ModalBox = styled.aside`
   display: flex;
-  width: 80%;
-  /* height: 45%; */
+  width: 100%;
+
+  height: 100vh;
   padding: 1.6rem;
+  overflow: scroll;
   gap: 2rem;
   flex-shrink: 0;
 
-  border-radius: 1.6rem;
+  /* border-radius: 1.6rem; */
   background: var(--neutral-light-lightest, #fff);
 `;

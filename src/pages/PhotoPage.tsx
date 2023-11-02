@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { uploadPhoto } from "../api/photo";
+import { getHistory, getHistoryDetail, uploadPhoto, uploadPhotoWithoutLogin } from "../api/photo";
 import { HiTurtleIc } from "../assets";
 import Footer from "../components/common/Footer";
 import Modal from "../components/common/Modal";
 import PhotoHeader from "../components/common/PhotoHeader";
 import { FOOTER_CATEGORY } from "../core/footerCategory";
 import useFooterMove from "../hooks/useFooterMove";
+import { blockAccess } from "../utils/join/isLogined";
 import Loading from "./Loading";
+
+interface CardType {
+  created_date: string;
+  img_url: string;
+  percentage: number;
+  record_id: string;
+}
+
+interface DetailType {
+  exercise_img_list: { url: string; content: string }[];
+  img_url: string;
+  percentage: number;
+}
 
 export default function PhotoPage() {
   const { handleMoveToPage } = useFooterMove();
@@ -27,7 +41,7 @@ export default function PhotoPage() {
   }
 
   const [file, setFile] = useState<File | null>(null);
-  const [result, setResult] = useState({ percentage: 0, image: "" });
+  const [result, setResult] = useState({ exercise_img_list: [], image: "", percentage: 0 });
   const { mutate: uploadFile, isLoading } = useMutation(() => uploadPhoto(file), {
     onSuccess: (response) => {
       setIsShowResult(true);
@@ -36,8 +50,24 @@ export default function PhotoPage() {
     },
     onError: (err) => {
       console.log(err);
+      alert("파일의 용량이 큽니다. 동영상의 길이는 2초 이내로 업로드해주세요.");
     },
   });
+
+  const { mutate: uploadFileWithoutLogin, isLoading: isLoadingWithoutLogin } = useMutation(
+    () => uploadPhotoWithoutLogin(file),
+    {
+      onSuccess: (response) => {
+        setIsShowResult(true);
+        setIsShow(false);
+        setResult(response);
+      },
+      onError: (err) => {
+        console.log(err);
+        alert("파일의 용량이 큽니다. 동영상의 길이는 2초 이내로 업로드해주세요.");
+      },
+    },
+  );
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files?.length === 0) {
@@ -51,19 +81,80 @@ export default function PhotoPage() {
     }
   }
 
-  if (isLoading) return <Loading />;
+  const { data: historys } = useQuery(["historys"], getHistory, {
+    onSuccess: (res) => {
+      // console.log(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const [isShowDetail, setIsShowDetail] = useState(false);
+  const [details, setDetails] = useState<DetailType>({ exercise_img_list: [], img_url: "", percentage: 0 });
+
+  const { mutate: detailList } = useMutation(["historyDetails"], getHistoryDetail, {
+    onSuccess: (res) => {
+      setDetails(res);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  function handleMoveToDetail(id: string) {
+    detailList(id);
+    setIsShowDetail(true);
+  }
+
+  function handleUpload() {
+    if (!blockAccess()) {
+      uploadFile();
+    } else {
+      uploadFileWithoutLogin();
+    }
+  }
+
+  if (isLoading || isLoadingWithoutLogin) return <Loading />;
 
   return (
     <Page>
+      {/* 디테일 */}
+      {isShowDetail && (
+        <Modal handleClickSingleButton={() => setIsShowDetail(false)}>
+          <ModalWrapper>
+            <ResultImage src={details.img_url} />
+            <ModalTitle>당신의 거북목 지수는 {details.percentage}%입니다!</ModalTitle>
+            <ModalSub>👇Turtled가 추천하는 스트레칭👇</ModalSub>
+            {details?.exercise_img_list.length > 0 &&
+              details.exercise_img_list.map(({ url, content }) => {
+                return (
+                  <>
+                    <Image src={url} />
+                    <Content>{content}</Content>
+                  </>
+                );
+              })}
+          </ModalWrapper>
+        </Modal>
+      )}
+      {/* 측정 직후 모달 */}
       {isShowResult && (
         <Modal handleClickSingleButton={() => setIsShowResult(false)}>
           <ModalWrapper>
             <ResultImage src={result.image} />
             <ModalTitle>당신의 거북목 지수는 {result.percentage}%입니다!</ModalTitle>
-            <ModalSub>Turtled와 함께 거북목을 극복해보아요!</ModalSub>
-            <Button type="button" onClick={() => navigate("/home")}>
-              홈으로 이동
-            </Button>
+            <ModalSub>👇Turtled가 추천하는 스트레칭👇</ModalSub>
+            {/* {result.percentage > 50 ? <Image src={red} /> : <Image src={green} />} */}
+            {result?.exercise_img_list.length > 0 &&
+              result.exercise_img_list.map(({ url, content }) => {
+                return (
+                  <>
+                    <Image src={url} />
+                    <Content>{content}</Content>
+                  </>
+                );
+              })}
           </ModalWrapper>
         </Modal>
       )}
@@ -79,7 +170,7 @@ export default function PhotoPage() {
 
             <Input type="file" onChange={handleFileChange} />
 
-            <Button type="button" onClick={() => uploadFile()}>
+            <Button type="button" onClick={handleUploade}>
               업로드하기
             </Button>
           </ModalWrapper>
@@ -93,12 +184,78 @@ export default function PhotoPage() {
           <Button onClick={handleModal}>측정하기</Button>
         </Center>
       </ContentWrapper>
+      <CardsContainer>
+        {historys.length > 0 &&
+          historys.map(({ created_date, img_url, percentage, record_id }: CardType) => {
+            return (
+              <Card key={record_id} onClick={() => handleMoveToDetail(record_id)}>
+                <CardImg src={img_url} />
+                <Wrapper>
+                  <CardContent>측정일 : {created_date}</CardContent>
+                  <CardContent>거북목 지수 : {percentage}%</CardContent>
+                </Wrapper>
+              </Card>
+            );
+          })}
+      </CardsContainer>
       <Footer />
     </Page>
   );
 }
 
+const CardsContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+
+  width: 100%;
+
+  padding-bottom: 15rem;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 1rem;
+`;
+
+const CardImg = styled.img`
+  width: 30%;
+  border-radius: 1rem;
+`;
+
+const Card = styled.div`
+  width: 87%;
+  display: flex;
+  padding: 1rem 2rem;
+  margin: 0.5rem;
+
+  /* justify-content: space-between; */
+
+  border-radius: 0.8rem;
+  background: #f8f9fe;
+`;
+
+const CardTitle = styled.h1`
+  ${({ theme }) => theme.fonts.caption}
+`;
+
+const Content = styled.p`
+  text-align: center;
+  ${({ theme }) => theme.fonts.content}
+`;
+
+const CardContent = styled.p`
+  ${({ theme }) => theme.fonts.content}
+`;
+
 const ResultImage = styled.img`
+  width: 80%;
+  padding-top: 5rem;
+`;
+const Image = styled.img`
   width: 80%;
 `;
 
@@ -176,6 +333,9 @@ const ModalWrapper = styled.aside`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
+
+  padding-bottom: 10rem;
 `;
 
 const ModalTitle = styled.h1`

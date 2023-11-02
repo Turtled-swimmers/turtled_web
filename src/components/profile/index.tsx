@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getMypage, postDeviceToken, postDeviceTokenWithoutLogin } from "../../api/auth";
+import { removeCookie } from "../../api/cookie";
 import { OffAlarmIc, OnAlarmIc } from "../../assets";
 import { token } from "../../atom/common/token";
-import { isLogined } from "../../utils/join/isLogined";
+import { blockAccess, isLogined } from "../../utils/join/isLogined";
 
 export default function Profile() {
   const [deviceToken, setDeviceToken] = useRecoilState(token);
@@ -90,19 +91,34 @@ export default function Profile() {
     }
   }, [deviceToken]);
 
+  function handleLogout() {
+    removeCookie("accessToken", {});
+    navigate("/");
+  }
+
   return (
     <ProfileWrapper>
-      <Box isAlarm={true}>
-        <NickName>{profile?.username}</NickName>
-        <Email>{profile?.email}</Email>
-      </Box>
+      {!blockAccess() ? (
+        <Box isAlarm={true}>
+          <NickName>{profile?.username}</NickName>
+          <Email>{profile?.email}</Email>
+        </Box>
+      ) : (
+        <Box isAlarm={false} onClick={() => navigate("/login")}>
+          <Content>로그인</Content>
+        </Box>
+      )}
+
       <Box isAlarm={true} onClick={handleAllowAlarm}>
         <Content>알림 허용</Content>
         <div>{deviceToken ? <OnAlarmIc /> : <OffAlarmIc />}</div>
       </Box>
-      <Box isAlarm={false}>
-        <Content onClick={handleMoveToMedal}>메달</Content>
-      </Box>
+      {!blockAccess() && (
+        <Box isAlarm={false}>
+          <Content onClick={handleMoveToMedal}>메달</Content>
+        </Box>
+      )}
+
       <Box isAlarm={false}>
         <Content>버전 정보</Content>
         <Sub>0.0.1</Sub>
@@ -111,15 +127,18 @@ export default function Profile() {
         <Content>문의하기</Content>
         <Sub>{profile?.support_email}</Sub>
       </Box>
-      <Box isAlarm={false} onClick={() => navigate("/login")}>
+      {/* <Box isAlarm={false} onClick={() => navigate("/login")}>
         <Content>로그인</Content>
       </Box>
-      <Box isAlarm={false}>
-        <Content>로그아웃</Content>
-      </Box>
-      <Box isAlarm={false} onClick={handleMoveToAlarm}>
+      */}
+      {!blockAccess() && (
+        <Box isAlarm={false}>
+          <Content onClick={handleLogout}>로그아웃</Content>
+        </Box>
+      )}
+      {/* <Box isAlarm={false} onClick={handleMoveToAlarm}>
         <Content>디바이스 토큰 확인</Content>
-      </Box>
+      </Box> */}
     </ProfileWrapper>
   );
 }

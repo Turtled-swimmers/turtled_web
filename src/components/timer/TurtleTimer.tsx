@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { alarm, postAlarm } from "../../api/timer";
+import { alarm, getTurtle, postAlarm } from "../../api/timer";
 import { TimerBackIc, TimerFrontIc, TurtleIc } from "../../assets";
 import { token } from "../../atom/common/token";
 
@@ -18,11 +18,14 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
   const deviceToken = useRecoilValue(token);
   const [startTime, setStartTime] = useState("");
 
-  const { mutate: sendAlarm } = useMutation(() => postAlarm(deviceToken, loopCycle, startTime), {
-    onError: (err) => {
-      console.log(err);
+  const { mutate: sendAlarm } = useMutation(
+    () => postAlarm(deviceToken, Number(loopTime.split(":")[0]) * 60 + Number(loopTime.split(":")[1]), startTime),
+    {
+      onError: (err) => {
+        console.log(err);
+      },
     },
-  });
+  );
 
   const { mutate: getAlarm } = useMutation(() => alarm(deviceToken), {
     onError: (err) => {
@@ -75,6 +78,10 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     }
   }
 
+  const { data: turtle, isError } = useQuery(["turtle"], getTurtle, { onSuccess: () => {}, onError: () => {} });
+
+  console.log(turtle);
+
   return (
     <>
       <TurtleTimerContainer>
@@ -85,7 +92,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
         </TurtleTimerWrapper>
         <TimerUIWrapper>
           {/* <Circle percent={Math.floor((time / timeToStrech) * 100)} /> */}
-          <TurtleIcon />
+          {isError ? <TurtleIcon /> : <Turtle src={turtle.image} />}
           <TimerFrontIcon />
           <TimerBackIcon />
 
@@ -95,6 +102,13 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     </>
   );
 }
+
+const Turtle = styled.img`
+  width: 25rem;
+  height: 25rem;
+  position: absolute;
+  z-index: 100;
+`;
 
 const TurtleIcon = styled(TurtleIc)`
   position: absolute;

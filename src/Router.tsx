@@ -11,6 +11,7 @@ import MedalPage from "./pages/MedalPage";
 import PhotoPage from "./pages/PhotoPage";
 import ProfilePage from "./pages/ProfilePage";
 import SignupPage from "./pages/SignupPage";
+import PrivateRoute from "./utils/common/PrivateRouter";
 
 export default function Router() {
   return (
@@ -22,12 +23,15 @@ export default function Router() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/medal" element={<MedalPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/alarm" element={<AlarmPage />} />
         <Route path="/photo" element={<PhotoPage />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/guest-book" element={<GuestBook />} />
         <Route path="/guest-book/send" element={<GuestBookWrite />} />
+
+        <Route element={<PrivateRoute authentication={true} />}>
+          <Route path="/calendar" element={<CalendarPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

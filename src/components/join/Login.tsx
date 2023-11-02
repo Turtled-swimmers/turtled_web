@@ -21,6 +21,7 @@ export default function Login() {
 
   const { mutate: loginData } = useMutation(["login"], login, {
     onSuccess: (accessToken) => {
+      console.log(accessToken);
       setCookie("accessToken", accessToken, {
         secure: true,
       });

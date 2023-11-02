@@ -16,8 +16,8 @@ export default function DayCard(props: DayCardProps) {
       <Title># {session}</Title>
       <Content>시작 시간 : {startTime}</Content>
       <Content>종료 시간 : {endTime}</Content>
-      <Content>타이머 주기 : {repeatTime}분</Content>
-      <Content>스트레칭 횟수 : {count}번</Content>
+      {/* <Content>타이머 주기 : {repeatTime}분</Content>
+      <Content>스트레칭 횟수 : {count}번</Content> */}
     </Card>
   );
 }

@@ -111,6 +111,10 @@ export default function Timer() {
     }
   }
 
+  useEffect(() => {
+    isShowEndModal && setTimeout(() => window.location.reload(), 3000);
+  }, [isShowEndModal]);
+
   return (
     <>
       {isShow && (
@@ -127,8 +131,10 @@ export default function Timer() {
           <Modal handleClickSingleButton={() => window.location.reload()}>
             <ModalWrapper>
               <ModalTitle>스트레칭 끝 !</ModalTitle>
-              <ModalSub>총 {loopCycle - 2}번을 하셨습니다!</ModalSub>
-              <ModalContent>타이머 주기 : {loopTime.split(":")[0]}분</ModalContent>
+              <ModalSub>총 {loopCycle}번을 하셨습니다!</ModalSub>
+              <ModalContent>
+                타이머 주기 : {loopTime.split(":")[0]}분 {loopTime.split(":")[1]}초
+              </ModalContent>
               <TurtleIcon />
             </ModalWrapper>
           </Modal>
@@ -139,9 +145,9 @@ export default function Timer() {
       <TimerWrapper>
         <Title>{loopCycle === 0 ? <>몇 분 주기로 알림 받으실래요?</> : <>{MESSAGE[messageCount]}</>}</Title>
         <TimeSetWrapper>
-          <ArrowLeftIc onClick={handleMinusTime} />
+          <ArrowLeftIcon onClick={handleMinusTime} />
           <LootTimeWrapper>{loopTime}</LootTimeWrapper>
-          <ArrowRightIc onClick={handlePlusTime} />
+          <ArrowRightIcon onClick={handlePlusTime} />
         </TimeSetWrapper>
 
         <TurtleTimer loopTime={loopTime} loopCycle={loopCycle} handleSetTimes={handleSetTimes} />
@@ -156,6 +162,16 @@ export default function Timer() {
     </>
   );
 }
+
+const ArrowLeftIcon = styled(ArrowLeftIc)`
+  width: 5rem;
+  height: 5rem;
+`;
+
+const ArrowRightIcon = styled(ArrowRightIc)`
+  width: 5rem;
+  height: 5rem;
+`;
 
 const TurtleIcon = styled(TurtleIc)`
   width: 25rem;

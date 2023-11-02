@@ -9,6 +9,8 @@ export async function getLists() {
     },
   });
 
+  console.log(data);
+
   return data.data;
 }
 
