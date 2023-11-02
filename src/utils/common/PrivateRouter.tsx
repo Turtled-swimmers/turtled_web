@@ -14,7 +14,7 @@ export default function PrivateRoute({ authentication }: PrivateRouteProps): any
     // 인증이 반드시 필요한 페이지
     // 인증을 안했을 경우 로그인 페이지로, 했을 경우 해당 페이지로
     if (!checkIsLogin() || checkIsCookieNull() || checkIsCookieAuthenticated()) {
-      alert("Please use this function after logging in.\n해당 기능은 로그인 후 이용해주세요.");
+      alert("해당 기능은 로그인 후 이용해주세요.");
       navigate("/login", {
         state: {
           prevURL: prevURL,
@@ -30,7 +30,6 @@ export default function PrivateRoute({ authentication }: PrivateRouteProps): any
 export function blockAccess(): any {
   // 인증이 반드시 필요한 페이지
   // 인증을 안했을 경우 로그인 페이지로, 했을 경우 해당 페이지로
-  (!checkIsLogin() || checkIsCookieNull()) &&
-    alert("Please use this function after logging in.\n해당 기능은 로그인 후 이용해주세요.");
+  (!checkIsLogin() || checkIsCookieNull()) && alert("해당 기능은 로그인 후 이용해주세요.");
   return (!checkIsLogin() || checkIsCookieNull()) && true;
 }
