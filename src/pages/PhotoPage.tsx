@@ -264,8 +264,9 @@ const Image = styled.img`
 `;
 
 const Page = styled.div`
-  padding-bottom: 15rem;
-  overflow: scroll;
+  /* padding-bottom: 15rem; */
+  /* overflow: scroll; */
+  /* height: 100vh; */
 `;
 
 const RealImg = styled.img`

@@ -40,7 +40,7 @@ const ModalWrapper = styled.div`
   height: 100%;
   background-color: rgb(33 37 41 / 60%);
   cursor: pointer;
-  overflow: scroll;
+  /* overflow: scroll; */
 `;
 
 const ModalContents = styled.div`
@@ -58,7 +58,7 @@ const ModalBox = styled.aside`
 
   height: 100vh;
   padding: 1.6rem;
-  overflow: scroll;
+  /* overflow: scroll; */
   gap: 2rem;
   flex-shrink: 0;
 

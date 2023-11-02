@@ -44,7 +44,7 @@ const Image = styled.img`
 `;
 
 const MedalCardWrapper = styled.article`
-  overflow: scroll;
+  /* overflow: scroll; */
   display: flex;
 
   padding: 1rem 0;
