@@ -9,7 +9,7 @@ import { getMypage, postDeviceToken, postDeviceTokenWithoutLogin } from "../../a
 import { removeCookie } from "../../api/cookie";
 import { OffAlarmIc, OnAlarmIc } from "../../assets";
 import { token } from "../../atom/common/token";
-import { blockAccess, isLogined } from "../../utils/join/isLogined";
+import { isLogined } from "../../utils/join/isLogined";
 
 export default function Profile() {
   const [deviceToken, setDeviceToken] = useRecoilState(token);
@@ -19,6 +19,7 @@ export default function Profile() {
     onError: (err) => {
       console.log(err);
     },
+    enabled: !!isLogined(),
   });
 
   function handleMoveToMedal() {
@@ -98,14 +99,14 @@ export default function Profile() {
 
   return (
     <ProfileWrapper>
-      {!blockAccess() ? (
+      {isLogined() ? (
         <Box isAlarm={true}>
           <NickName>{profile?.username}</NickName>
           <Email>{profile?.email}</Email>
         </Box>
       ) : (
         <Box isAlarm={false} onClick={() => navigate("/login")}>
-          <Content>로그인</Content>
+          <NickName>로그인</NickName>
         </Box>
       )}
 
@@ -113,7 +114,7 @@ export default function Profile() {
         <Content>알림 허용</Content>
         <div>{deviceToken ? <OnAlarmIc /> : <OffAlarmIc />}</div>
       </Box>
-      {!blockAccess() && (
+      {isLogined() && (
         <Box isAlarm={false}>
           <Content onClick={handleMoveToMedal}>메달</Content>
         </Box>
@@ -131,7 +132,7 @@ export default function Profile() {
         <Content>로그인</Content>
       </Box>
       */}
-      {!blockAccess() && (
+      {isLogined() && (
         <Box isAlarm={false}>
           <Content onClick={handleLogout}>로그아웃</Content>
         </Box>

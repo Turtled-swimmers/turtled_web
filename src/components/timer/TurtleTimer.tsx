@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { alarm, getTurtle, postAlarm } from "../../api/timer";
 import { TimerBackIc, TimerFrontIc, TurtleIc } from "../../assets";
 import { token } from "../../atom/common/token";
+import { isLogined } from "../../utils/join/isLogined";
 
 interface TurtleTimerProp {
   loopTime: string;
@@ -78,9 +79,13 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     }
   }
 
-  const { data: turtle, isError } = useQuery(["turtle"], getTurtle, { onSuccess: () => {}, onError: () => {} });
-
-  console.log(turtle);
+  const { data: turtle, isError } = useQuery(["turtle"], getTurtle, {
+    onSuccess: () => {},
+    onError: (err) => {
+      console.log(err);
+    },
+    enabled: !!isLogined(),
+  });
 
   return (
     <>
@@ -92,7 +97,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
         </TurtleTimerWrapper>
         <TimerUIWrapper>
           {/* <Circle percent={Math.floor((time / timeToStrech) * 100)} /> */}
-          {isError ? <TurtleIcon /> : <Turtle src={turtle.image} />}
+          {!isLogined() ? <TurtleIcon /> : <Turtle src={turtle.image} />}
           <TimerFrontIcon />
           <TimerBackIcon />
 

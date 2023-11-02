@@ -9,7 +9,7 @@ import Modal from "../components/common/Modal";
 import PhotoHeader from "../components/common/PhotoHeader";
 import { FOOTER_CATEGORY } from "../core/footerCategory";
 import useFooterMove from "../hooks/useFooterMove";
-import { blockAccess } from "../utils/join/isLogined";
+import { isLogined } from "../utils/join/isLogined";
 import Loading from "./Loading";
 
 interface CardType {
@@ -88,6 +88,7 @@ export default function PhotoPage() {
     onError: (err) => {
       console.log(err);
     },
+    enabled: !!isLogined(),
   });
 
   const [isShowDetail, setIsShowDetail] = useState(false);
@@ -108,7 +109,7 @@ export default function PhotoPage() {
   }
 
   function handleUpload() {
-    if (!blockAccess()) {
+    if (isLogined()) {
       uploadFile();
     } else {
       uploadFileWithoutLogin();
@@ -170,7 +171,7 @@ export default function PhotoPage() {
 
             <Input type="file" onChange={handleFileChange} />
 
-            <Button type="button" onClick={handleUploade}>
+            <Button type="button" onClick={handleUpload}>
               업로드하기
             </Button>
           </ModalWrapper>
@@ -184,20 +185,23 @@ export default function PhotoPage() {
           <Button onClick={handleModal}>측정하기</Button>
         </Center>
       </ContentWrapper>
-      <CardsContainer>
-        {historys.length > 0 &&
-          historys.map(({ created_date, img_url, percentage, record_id }: CardType) => {
-            return (
-              <Card key={record_id} onClick={() => handleMoveToDetail(record_id)}>
-                <CardImg src={img_url} />
-                <Wrapper>
-                  <CardContent>측정일 : {created_date}</CardContent>
-                  <CardContent>거북목 지수 : {percentage}%</CardContent>
-                </Wrapper>
-              </Card>
-            );
-          })}
-      </CardsContainer>
+      {isLogined() && (
+        <CardsContainer>
+          {historys.length > 0 &&
+            historys.map(({ created_date, img_url, percentage, record_id }: CardType) => {
+              return (
+                <Card key={record_id} onClick={() => handleMoveToDetail(record_id)}>
+                  <CardImg src={img_url} />
+                  <Wrapper>
+                    <CardContent>측정일 : {created_date}</CardContent>
+                    <CardContent>거북목 지수 : {percentage}%</CardContent>
+                  </Wrapper>
+                </Card>
+              );
+            })}
+        </CardsContainer>
+      )}
+
       <Footer />
     </Page>
   );
