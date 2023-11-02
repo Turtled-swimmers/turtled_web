@@ -12,16 +12,19 @@ export default function TurtledHeader() {
   }
   return (
     <Header>
-      <div onClick={handleMoveToHome}>
+      <Div onClick={handleMoveToHome}>
         <MainColor>T</MainColor>
         <h1>urtled</h1>
-      </div>
+      </Div>
       {isExist && <Circle />}
       <NotificationIcon />
     </Header>
   );
 }
 
+const Div = styled.div`
+  display: flex;
+`;
 const MainColor = styled.h1`
   color: ${({ theme }) => theme.colors.green};
 `;
