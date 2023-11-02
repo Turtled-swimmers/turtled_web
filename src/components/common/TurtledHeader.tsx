@@ -1,15 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { NotificationIc } from "../../assets";
 import Header from "./Header";
 
 export default function TurtledHeader() {
   const [isExist, setIsExist] = useState(true);
-
+  const navigate = useNavigate();
+  function handleMoveToHome() {
+    navigate("/home");
+  }
   return (
     <Header>
-      <MainColor>T</MainColor>
-      <h1>urtled</h1>
+      <div onClick={handleMoveToHome}>
+        <MainColor>T</MainColor>
+        <h1>urtled</h1>
+      </div>
       {isExist && <Circle />}
       <NotificationIcon />
     </Header>
