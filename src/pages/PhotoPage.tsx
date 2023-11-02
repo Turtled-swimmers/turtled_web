@@ -165,7 +165,7 @@ export default function PhotoPage() {
         <Modal handleClickSingleButton={handleModal}>
           <ModalWrapper>
             <ModalTitle>이렇게 촬영해주세요!</ModalTitle>
-            <ModalSub>(1) 자연스러운 옆모습을 영상 촬영(3초)해주세요!</ModalSub>
+            <ModalSub>(1) 자연스러운 옆모습을 영상 촬영(1~2초)해주세요!</ModalSub>
             <ModalSub>
               (2) 무엇인가를 보고 있는 모습이라면
               <br />더 정확하게 측정가능하답니다!
