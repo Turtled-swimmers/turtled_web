@@ -48,7 +48,8 @@ export default function PhotoPage() {
       setIsShow(false);
       setResult(response);
     },
-    onError: (err) => {
+    onError: (err: any) => {
+      alert(err.message);
       console.log(err);
       alert("파일의 용량이 큽니다. 동영상의 길이는 2초 이내로 업로드해주세요.");
     },
@@ -62,8 +63,9 @@ export default function PhotoPage() {
         setIsShow(false);
         setResult(response);
       },
-      onError: (err) => {
+      onError: (err: any) => {
         console.log(err);
+        alert(err.message);
         alert("파일의 용량이 큽니다. 동영상의 길이는 2초 이내로 업로드해주세요.");
       },
     },
