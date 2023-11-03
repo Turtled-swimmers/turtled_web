@@ -9,7 +9,7 @@ export async function getLists() {
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   return data.data;
 }

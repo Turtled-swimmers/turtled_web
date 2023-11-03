@@ -1,4 +1,8 @@
+import { useMutation } from "react-query";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { changeMedal, checkMedal } from "../../api/medal";
+import { token } from "../../atom/common/token";
 
 interface MedalCardProps {
   medal: {
@@ -13,6 +17,33 @@ interface MedalCardProps {
 }
 
 export default function MedalCard({ medal }: MedalCardProps) {
+  const [deviceToken, setDeviceToken] = useRecoilState(token);
+
+  const { mutate: changingMedal } = useMutation(() => changeMedal(medal.medal_id, deviceToken), {
+    onSuccess: () => {},
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutate: checkingMedal } = useMutation(() => checkMedal(medal.medal_id, deviceToken), {
+    onSuccess: (res) => {
+      console.log(res);
+      if (res.is_achieved) {
+        changingMedal();
+      } else {
+        alert(`스트레칭을 더 열심히 하면 ${medal.title}을 얻을 수 있을 거에요!`);
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  function handleDownload() {
+    checkingMedal();
+  }
+
   return (
     <MedalCardWrapper>
       <Image src={medal.image} alt="메달 사진" />
@@ -20,13 +51,24 @@ export default function MedalCard({ medal }: MedalCardProps) {
         <Title>{medal.title}</Title>
         <Content>{medal.content}</Content>
       </Left>
+      <Button onClick={handleDownload}>다운로드</Button>
     </MedalCardWrapper>
   );
 }
 
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.green};
+  padding: 1rem;
+  border-radius: 1rem;
+  color: white;
+  margin-left: 1rem;
+`;
+
 const Left = styled.div`
   display: flex;
   flex-direction: column;
+
+  width: 45%;
 `;
 
 const Content = styled.p`
