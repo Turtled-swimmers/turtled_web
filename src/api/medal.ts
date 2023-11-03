@@ -13,6 +13,8 @@ export async function getMedal() {
 }
 
 export async function checkMedal(id: string, token: string) {
+  console.log(id);
+  console.log(token);
   const data = await axios.post(
     `${import.meta.env.VITE_APP_BASE_URL}/api/v1/challenges/check_medal`,
     {

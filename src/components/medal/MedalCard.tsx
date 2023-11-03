@@ -20,7 +20,9 @@ export default function MedalCard({ medal }: MedalCardProps) {
   const [deviceToken, setDeviceToken] = useRecoilState(token);
 
   const { mutate: changingMedal } = useMutation(() => changeMedal(medal.medal_id, deviceToken), {
-    onSuccess: () => {},
+    onSuccess: (res) => {
+      alert("거북이가 변경되었습니다. 다시 스트레칭을 하러 가보아요!");
+    },
     onError: (err) => {
       console.log(err);
     },
