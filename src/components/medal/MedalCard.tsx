@@ -31,11 +31,11 @@ export default function MedalCard({ medal }: MedalCardProps) {
   const { mutate: checkingMedal } = useMutation(() => checkMedal(medal.medal_id, deviceToken), {
     onSuccess: (res) => {
       console.log(res);
-      if (res.is_achieved) {
-        changingMedal();
-      } else {
-        alert(`스트레칭을 더 열심히 하면 ${medal.title}을 얻을 수 있을 거에요!`);
-      }
+      changingMedal();
+      // if (!res.is_achieved) {
+      // } else {
+      //   alert(`스트레칭을 더 열심히 하면 ${medal.title}을 얻을 수 있을 거에요!`);
+      // }
     },
     onError: (err) => {
       console.log(err);

@@ -86,7 +86,7 @@ export default function TurtleTimer({ loopTime, loopCycle, handleSetTimes }: Tur
     },
     enabled: !!isLogined(),
   });
-
+  console.log(turtle);
   return (
     <>
       <TurtleTimerContainer>
